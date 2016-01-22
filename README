@@ -1,0 +1,12 @@
+# INSTALL
+
+> git clone https://github.com/DanBuchan/twittercoding.git
+> pip -r install requirements
+> python manage.py createsuperuser
+
+# TODO
+
+1. Add user reg and log in provide party category
+2. Show one tweet at a time for the given log in user with the given party_code
+3. A random user gets random tweets to recode
+4. some minor stats

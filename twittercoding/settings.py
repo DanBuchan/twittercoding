@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'coding',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -52,10 +53,18 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'twittercoding.urls'
 
+TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    TEMPLATE_PATH,
+)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': TEMPLATE_DIRS,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,5 +126,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-
+STATIC_PATH = os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    STATIC_PATH,
+)

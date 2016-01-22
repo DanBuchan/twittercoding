@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+    <head>
+        <title>Coding Shizzle</title>
+    </head>
+
+    <body>
+        <h1>Tweets...</h1>
+        {% if tweets %}
+            <ul>
+                {% for tweet in tweets %}
+                <li>{{ tweet.tweet_id }}</li>
+                <li>{{ tweet.timestamp }}</li>
+                <li>{{ tweet.user_name }}</li>
+                <li>{{ tweet.party_code }}</li>
+                <li>{{ tweet.tweet_text }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no tweets present.</strong>
+        {% endif %}
+
+        <img src="{% static "images/featured-500x375c.jpg" %}" alt="Picture" /> <!-- New line -->
+        <a href="/coding/about/">About</a><br />
+
+    </body>
+
+</html>
