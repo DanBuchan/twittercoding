@@ -2,3 +2,5 @@
 2. No support for categories being subsets of other categories, which means
    YOU MUST provide an answer for all coding categories
 3. Make tweet ID an indexed column
+4. Add bulk loading interface for admin
+5. Make pretty (i.e. bootstrap and proper templates)
