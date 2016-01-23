@@ -3,28 +3,54 @@
 <html>
 
     <head>
-        <title>Coding Shizzle</title>
+        <title>Tweet Coding</title>
     </head>
 
     <body>
-        <h1>Tweets...</h1>
+      {% if user.is_authenticated %}
+        <h1>Hello {{ user.username }}.</h1>
+        <h2>You are currently coding for tweets marked {{ label }}</h2>
+        <h2>You have coded {{ done }} {{ label }} tweets. There are {{ todo }} to do.</h2>
+
         {% if tweets %}
-            <ul>
-                {% for tweet in tweets %}
-                <li>{{ tweet.tweet_id }}</li>
-                <li>{{ tweet.timestamp }}</li>
-                <li>{{ tweet.user_name }}</li>
-                <li>{{ tweet.party_code }}</li>
-                <li>{{ tweet.tweet_text }}</li>
-                {% endfor %}
-            </ul>
+
+          <ul>
+              {% for tweet in tweets %}
+              <li>{{ tweet.tweet_id }}</li>
+              <li>{{ tweet.timestamp }}</li>
+              <li>{{ tweet.user_name }}</li>
+              <li>{{ tweet.tweet_text }}</li>
+              {% endfor %}
+          </ul>
         {% else %}
-            <strong>There are no tweets present.</strong>
+          <strong>There are no tweets present.</strong>
         {% endif %}
+        <form id="tweet_form" method="post" action="/coding/index">
 
-        <img src="{% static "images/featured-500x375c.jpg" %}" alt="Picture" /> <!-- New line -->
-        <a href="/coding/about/">About</a><br />
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
 
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+            {% endfor %}
+
+            <input type="submit" name="submit" value="Code" />
+        </form>
+
+      {% else %}
+        <h1>How did you get here? Something has gone very wrong</h1>
+      {% endif %}
+
+        {% if user.is_authenticated %}
+        <a href="/coding/logout/">Logout</a><br />
+        {% else %}
+        <a href="/rango/register/">Register Here</a><br />
+        <a href="/rango/login/">Login</a><br />
+        {% endif %}
     </body>
 
 </html>

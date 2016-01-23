@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = '/coding/login/'
+AUTH_PROFILE_MODULE = 'coding.UserProfile'
 
 # Application definition
 
