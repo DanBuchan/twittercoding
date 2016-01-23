@@ -1,12 +1,8 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load staticfiles %}
-<html>
 
-    <head>
-        <title>Tweet Coding</title>
-    </head>
+{% block body_block %}
 
-    <body>
         {% if tweet %}
 
           <ul>
@@ -38,12 +34,4 @@
           <strong>There are no tweets present.</strong> <br />
         {% endif %}
 
-        {% if user.is_authenticated %}
-        <a href="/coding/logout/">Logout</a><br />
-        {% else %}
-        <a href="/rango/register/">Register Here</a><br />
-        <a href="/rango/login/">Login</a><br />
-        {% endif %}
-    </body>
-
-</html>
+{% endblock %}

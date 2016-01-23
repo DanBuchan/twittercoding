@@ -50,6 +50,9 @@ def get_db_info(current_user, form, error):
 @login_required
 def index(request):
     current_user = request.user
+
+    if current_user.username == "admin":
+        return render(request, 'coding/login.html', {})
     # get a tweet's data
 
     # save or prepare the tweet coding form

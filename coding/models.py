@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Tweet(models.Model):
-    tweet_id = models.IntegerField(unique=True)
+    tweet_id = models.IntegerField(unique=True, db_index=True)
     timestamp = models.IntegerField()
     user_name = models.CharField(max_length=128)
     label = models.CharField(max_length=20, null=True)

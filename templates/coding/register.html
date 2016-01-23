@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Coding</title>
-    </head>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-    <body>
+{% block body_block %}
+
         <h1>Register a user</h1>
 
         {% if registered %}
@@ -29,5 +27,5 @@
             <input type="submit" name="submit" value="Register" />
         </form>
         {% endif %}
-    </body>
-</html>
+
+{% endblock %}

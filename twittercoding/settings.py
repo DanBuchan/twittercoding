@@ -33,6 +33,7 @@ AUTH_PROFILE_MODULE = 'coding.UserProfile'
 # Application definition
 
 INSTALLED_APPS = [
+    'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

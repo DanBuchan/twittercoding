@@ -1,8 +1,7 @@
 1. Form validation in index is clunky and should be rewritten
 2. No support for categories being subsets of other categories, which means
    YOU MUST provide an answer for all coding categories
-3. Make tweet ID an indexed column
-4. Add bulk loading interface for admin
-5. Make pretty (i.e. bootstrap and proper templates)
-6. Add summary statistics page
-7. Docs!
+3. Add bulk loading interface for admin
+4. Make pretty (i.e. bootstrap and proper templates)
+5. Add summary statistics page
+6. Docs!

@@ -1,1 +1,2 @@
-django==1.8.1
+Django==1.8.1
+django-admin-bootstrapped==2.5.7
