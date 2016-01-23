@@ -2,6 +2,6 @@
 2. No support for categories being subsets of other categories, which means
    YOU MUST provide an answer for all coding categories
 3. Add bulk loading interface for admin
-4. Make pretty (i.e. bootstrap and proper templates)
+4. Tidy layout
 5. Add summary statistics page
 6. Docs!

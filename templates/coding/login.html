@@ -5,9 +5,6 @@
 
         <h1>Login</h1>
 
-        <a href="/coding/register/">Register Here</a><br />
-        or login<br /><br />
-
         <form id="login_form" method="post" action="/coding/login/">
             {% csrf_token %}
             Username: <input type="text" name="username" value="" size="50" />
