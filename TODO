@@ -1,5 +1,4 @@
 1. Form validation in index is clunky and should be rewritten
-2. Remove redundant bits of code from validation
-3. No support for categories being subsets of other categories, which means
+2. No support for categories being subsets of other categories, which means
    YOU MUST provide an answer for all coding categories
-4. Make tweet ID an indexed column
+3. Make tweet ID an indexed column

@@ -17,8 +17,18 @@
           </ul>
 
         {% if coding %}
+          <h2>Coded</h2>
           <ul>
           {% for code in coding %}
+          <li>{{ code.category }} : {{ code.feature }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if recoding %}
+          <h2>ReCoded</h2>
+          <ul>
+          {% for code in recoding %}
           <li>{{ code.category }} : {{ code.feature }}</li>
           {% endfor %}
           </ul>

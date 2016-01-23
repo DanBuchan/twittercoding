@@ -8,15 +8,44 @@ from django.contrib import messages
 from coding.models import Tweet, Code, Category, Feature
 from coding.forms import UserForm, UserProfileForm, TweetForm
 
+
 def tweet(request, tweet_id):
     tweet = Tweet.objects.get(tweet_id=tweet_id)
     coding = Code.objects.filter(tweet=tweet, primary_coding=True).all()
+    recoding = Code.objects.filter(tweet=tweet, recoding=True).all()
     categories = categories = Category.objects.all()
 
     context_dict = {'tweet': tweet,
                     'coding': coding,
+                    'recoding': recoding,
                     'categories': categories,}
     return render(request, 'coding/tweet.html', context_dict)
+
+
+def get_db_info(current_user, form, error):
+    coded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=True).count()
+    uncoded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).count()
+    tweet_list = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).order_by('-tweet_id')[:1]
+    coding_message = "You are currently coding for tweets marked "+current_user.userprofile.tweet_label
+    progress_message = "You have coded "+str(coded)+" "+current_user.userprofile.tweet_label+" tweets. There are "+str(uncoded)+" to do."
+    if current_user.userprofile.recoder == True:
+        coded = Tweet.objects.filter(coded=True, recoded=True).count()
+        uncoded = Tweet.objects.filter(coded=True, recoded=False).count()
+        tweet_list = Tweet.objects.filter(coded=True, recoded=False).order_by('?')[:1]
+        coding_message = "You are currently recoding randomised tweets"
+        progress_message = "You have recoded "+str(coded)+" tweets. There are "+str(uncoded)+" to do."
+    categories = Category.objects.all()
+    # here we should get the tweet html as per the twitter API
+    context_dict = {'tweets': tweet_list,
+                    'label': current_user.userprofile.tweet_label,
+                    'todo': uncoded,
+                    'done': coded,
+                    'form': form,
+                    'error': error,
+                    'categories': categories,
+                    'coding_message': coding_message,
+                    'progress_message': progress_message,}
+    return(context_dict)
 
 @login_required
 def index(request):
@@ -45,28 +74,23 @@ def index(request):
                         cat_key = key.lstrip("category_")
                         cat = Category.objects.get(pk=cat_key)
                         feat = Feature.objects.get(pk=request.POST[key])
-                        c = Code(primary_coding=True, tweet=tweet, category=cat, feature=feat)
-                        c.save()
+                        if current_user.userprofile.recoder == True:
+                            c = Code(recoding=True, tweet=tweet, category=cat, feature=feat)
+                            c.save()
+                        else:
+                            c = Code(primary_coding=True, tweet=tweet, category=cat, feature=feat)
+                            c.save()
             else:
-                coded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=True).count()
-                uncoded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).count()
-                tweet_list = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).order_by('-tweet_id')[:1]
-                categories = Category.objects.all()
-
-                # here we should get the tweet html as per the twitter API
-                context_dict = {'tweets': tweet_list,
-                                'label': current_user.userprofile.tweet_label,
-                                'todo': uncoded,
-                                'done': coded,
-                                'form': form,
-                                'error': "YOU MUST MAKE A SELECTION FOR ALL CATEGORIES",
-                                'categories': categories}
+                context_dict = get_db_info(current_user, form, 'Please make selections for all categories')
                 return render(request, 'coding/index.html', context_dict)
             # Now call the index() view.
             # The user will be shown the homepage.
 
             tweet = Tweet.objects.get(tweet_id=request.POST['tweet_id'])
-            tweet.coded = True
+            if current_user.userprofile.recoder == True:
+                tweet.recoded = True
+            else:
+                tweet.coded = True
             tweet.save()
 
         else:
@@ -76,20 +100,7 @@ def index(request):
         # If the request was not a POST, display the form to enter details.
         form = TweetForm()
 
-    coded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=True).count()
-    uncoded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).count()
-    tweet_list = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).order_by('-tweet_id')[:1]
-    categories = Category.objects.all()
-
-    # here we should get the tweet html as per the twitter API
-    context_dict = {'tweets': tweet_list,
-                    'label': current_user.userprofile.tweet_label,
-                    'todo': uncoded,
-                    'done': coded,
-                    'form': form,
-                    'error': '',
-                    'categories': categories}
-
+    context_dict = get_db_info(current_user, form, '')
     return render(request, 'coding/index.html', context_dict)
 # Create your views here.
 
