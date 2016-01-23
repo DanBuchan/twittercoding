@@ -1,3 +1,6 @@
+import requests
+import json
+
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
@@ -36,7 +39,16 @@ def get_db_info(current_user, form, error):
         progress_message = "You have recoded "+str(coded)+" tweets. There are "+str(uncoded)+" to do."
     categories = Category.objects.all()
     # here we should get the tweet html as per the twitter API
+
+    embedded_tweet = "<div></div>"
+    for tweet in tweet_list:
+        twitter_embed_url = "https://api.twitter.com/1/statuses/oembed.json?hide_media=1&url=https://twitter.com/Interior/status/"
+        r = requests.get(twitter_embed_url+str(tweet.tweet_id))
+        embed_json = r.json()
+        embedded_tweet = embed_json['html']
+
     context_dict = {'tweets': tweet_list,
+                    'embedded_tweet': embedded_tweet,
                     'label': current_user.userprofile.tweet_label,
                     'todo': uncoded,
                     'done': coded,

@@ -1,2 +1,4 @@
 Django==1.8.1
 django-admin-bootstrapped==2.5.7
+django-bootstrap-toolkit==2.15.0
+requests==2.9.1

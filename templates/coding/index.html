@@ -9,14 +9,7 @@
         <h3>{{ error }}</h3>
         {% if tweets %}
 
-          <ul>
-              {% for tweet in tweets %}
-              <li>{{ tweet.tweet_id }}</li>
-              <li>{{ tweet.timestamp }}</li>
-              <li>{{ tweet.user_name }}</li>
-              <li>{{ tweet.tweet_text }}</li>
-              {% endfor %}
-          </ul>
+        {{ embedded_tweet |safe }}
 
           <form id="tweet_form" method="post" action="/coding/index/">
 
