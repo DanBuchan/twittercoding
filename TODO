@@ -4,3 +4,5 @@
 3. Make tweet ID an indexed column
 4. Add bulk loading interface for admin
 5. Make pretty (i.e. bootstrap and proper templates)
+6. Add summary statistics page
+7. Docs!
