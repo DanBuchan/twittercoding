@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+    <head>
+        <title>Tweet Coding</title>
+    </head>
+
+    <body>
+        {% if tweet %}
+
+          <ul>
+              <li>{{ tweet.tweet_id }}</li>
+              <li>{{ tweet.timestamp }}</li>
+              <li>{{ tweet.user_name }}</li>
+              <li>{{ tweet.tweet_text }}</li>
+          </ul>
+
+        {% if coding %}
+          <ul>
+          {% for code in coding %}
+          <li>{{ code.category }} : {{ code.feature }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% else %}
+          <strong>There are no tweets present.</strong> <br />
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <a href="/coding/logout/">Logout</a><br />
+        {% else %}
+        <a href="/rango/register/">Register Here</a><br />
+        <a href="/rango/login/">Login</a><br />
+        {% endif %}
+    </body>
+
+</html>

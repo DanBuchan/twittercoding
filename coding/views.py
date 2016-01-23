@@ -8,6 +8,15 @@ from django.contrib import messages
 from coding.models import Tweet, Code, Category, Feature
 from coding.forms import UserForm, UserProfileForm, TweetForm
 
+def tweet(request, tweet_id):
+    tweet = Tweet.objects.get(tweet_id=tweet_id)
+    coding = Code.objects.filter(tweet=tweet, primary_coding=True).all()
+    categories = categories = Category.objects.all()
+
+    context_dict = {'tweet': tweet,
+                    'coding': coding,
+                    'categories': categories,}
+    return render(request, 'coding/tweet.html', context_dict)
 
 @login_required
 def index(request):
