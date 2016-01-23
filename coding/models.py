@@ -19,12 +19,6 @@ class Tweet(models.Model):
         return str(self.tweet_id)
 
 
-class Code(models.Model):
-    primary_coding = models.BooleanField(default=False, blank=False)
-    recoding = models.BooleanField(default=False, blank=False)
-    # basically this table links tweets to features many-to-many table I guess
-
-
 class Category(models.Model):
     name = models.CharField(max_length=256)
 
@@ -33,16 +27,27 @@ class Category(models.Model):
 
 
 class Feature(models.Model):
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, related_name="features")
     name = models.CharField(max_length=256)
 
     def __str__(self):  # For Python 2, use __str__ on Python 3
         return self.name
 
 
+class Code(models.Model):
+    primary_coding = models.BooleanField(default=False, blank=False)
+    recoding = models.BooleanField(default=False, blank=False)
+    category = models.ForeignKey(Category, null=True)
+    feature = models.ForeignKey(Feature, null=True)
+    tweet = models.ForeignKey(Tweet, null=True)
+
+    # basically this table links tweets to features many-to-many table I guess
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     tweet_label = models.CharField(max_length=20, null=False)
+    recoder = models.BooleanField(default=False, blank=False)
 
     def __unicode__(self):
         return self.user.username

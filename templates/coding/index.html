@@ -8,10 +8,10 @@
 
     <body>
       {% if user.is_authenticated %}
-        <h1>Hello {{ user.username }}.</h1>
+        <h1>Hello {{ user.username }}</h1>
         <h2>You are currently coding for tweets marked {{ label }}</h2>
         <h2>You have coded {{ done }} {{ label }} tweets. There are {{ todo }} to do.</h2>
-
+        <h3>{{ error }}</h3>
         {% if tweets %}
 
           <ul>
@@ -22,24 +22,35 @@
               <li>{{ tweet.tweet_text }}</li>
               {% endfor %}
           </ul>
+
+          <form id="tweet_form" method="post" action="/coding/index/">
+
+              {% csrf_token %}
+              {% for hidden in form.hidden_fields %}
+                  {{ hidden }}
+              {% endfor %}
+              {% for tweet in tweets %}
+              <input id="tweet_id" name="tweet_id" type="hidden" value="{{ tweet.tweet_id }}" />
+              {% endfor %}
+              {% for field in form.visible_fields %}
+                  {{ field.errors }}
+                  {{ field.help_text }}
+                  {{ field }}
+              {% endfor %}
+
+              {% for category in categories %}
+                <h3>{{ category }}</h3>
+                {% for feature in category.features.all %}
+                <input type="radio" name="category_{{ category.pk }}" value="{{ feature.pk }}">{{ feature }}<br>
+                {% endfor%}
+              {% endfor %}
+
+              <input type="submit" name="submit" value="Code" />
+          </form>
+
         {% else %}
-          <strong>There are no tweets present.</strong>
+          <strong>There are no tweets present.</strong> <br />
         {% endif %}
-        <form id="tweet_form" method="post" action="/coding/index">
-
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-            {% endfor %}
-
-            <input type="submit" name="submit" value="Code" />
-        </form>
 
       {% else %}
         <h1>How did you get here? Something has gone very wrong</h1>

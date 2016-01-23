@@ -1,0 +1,3 @@
+1. Form validation in index is clunky and should be rewritten
+2. No support for categories being subsets of other categories, which means
+   YOU MUST provide an answer for all coding categories

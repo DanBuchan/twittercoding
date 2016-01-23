@@ -9,9 +9,9 @@ from coding.models import Tweet, Code, Category, Feature
 
 def populate():
     Tweet.objects.all().delete()
-    Catergory.objects.all().delete()
+    Category.objects.all().delete()
     Feature.objects.all().delete()
-
+    Code.objects.all().delete()
 
     add_tweet(596515623053750272, 1431048181, "_AlexSanderson", "LAB",
               "RT @peter_graham: Although @HFLabour take their lead from "

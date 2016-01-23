@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.contrib import messages
 
 from coding.models import Tweet, Code, Category, Feature
 from coding.forms import UserForm, UserProfileForm, TweetForm
@@ -11,17 +12,54 @@ from coding.forms import UserForm, UserProfileForm, TweetForm
 @login_required
 def index(request):
     current_user = request.user
+    # get a tweet's data
 
-    #save or prepare the tweet coding form
+    # save or prepare the tweet coding form
     if request.method == 'POST':
         form = TweetForm(request.POST)
         if form.is_valid():
+            #print(request.POST)
+            tweet = Tweet.objects.get(tweet_id=request.POST['tweet_id'])
             # Save the new category to the database.
-            form.save(commit=True)
 
+            #check we have recieved a selection for each radio button
+            total_cats = Category.objects.all().count()
+            cat_count = 0
+            for key in request.POST:
+                if key.startswith("category"):
+                    cat_count+=1
+
+            #if yes save each one to code
+            if cat_count == total_cats:
+                for key in request.POST:
+                    if key.startswith("category"):
+                        cat_key = key.lstrip("category_")
+                        cat = Category.objects.get(pk=cat_key)
+                        feat = Feature.objects.get(pk=request.POST[key])
+                        c = Code(primary_coding=True, tweet=tweet, category=cat, feature=feat)
+                        c.save()
+            else:
+                coded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=True).count()
+                uncoded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).count()
+                tweet_list = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).order_by('-tweet_id')[:1]
+                categories = Category.objects.all()
+
+                # here we should get the tweet html as per the twitter API
+                context_dict = {'tweets': tweet_list,
+                                'label': current_user.userprofile.tweet_label,
+                                'todo': uncoded,
+                                'done': coded,
+                                'form': form,
+                                'error': "YOU MUST MAKE A SELECTION FOR ALL CATEGORIES",
+                                'categories': categories}
+                return render(request, 'coding/index.html', context_dict)
             # Now call the index() view.
             # The user will be shown the homepage.
-            return index(request)
+
+            tweet = Tweet.objects.get(tweet_id=request.POST['tweet_id'])
+            tweet.coded = True
+            tweet.save()
+
         else:
             # The supplied form contained errors - just print them to the terminal.
             print(form.errors)
@@ -29,17 +67,19 @@ def index(request):
         # If the request was not a POST, display the form to enter details.
         form = TweetForm()
 
-    #get a tweet's data
     coded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=True).count()
     uncoded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).count()
     tweet_list = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).order_by('-tweet_id')[:1]
+    categories = Category.objects.all()
 
-    #here we should get the tweet html as per the twitter API
+    # here we should get the tweet html as per the twitter API
     context_dict = {'tweets': tweet_list,
                     'label': current_user.userprofile.tweet_label,
                     'todo': uncoded,
                     'done': coded,
-                    'form': form}
+                    'form': form,
+                    'error': '',
+                    'categories': categories}
 
     return render(request, 'coding/index.html', context_dict)
 # Create your views here.
@@ -101,7 +141,7 @@ def user_login(request):
                 return HttpResponseRedirect('/coding/')
             else:
                 # An inactive account was used - no logging in!
-                return HttpResponse("Your Rango account is disabled.")
+                return HttpResponse("Your Coding account is disabled.")
         else:
             # Bad login details were provided. So we can't log the user in.
             print("Invalid login details: {0}, {1}".format(username, password))
