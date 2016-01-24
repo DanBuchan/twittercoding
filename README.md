@@ -6,7 +6,7 @@
 
 # HOW IT WORKS
 
-## Format you tweet csv correctly
+## 1. Format you tweet csv correctly
 
 First of all you MUST format your tweet file correctly. For now it is required
 to be in csv format with the following columns
@@ -27,13 +27,13 @@ politician tweets.
 
 If you look in the data dir there is and example correctly formatted input file called test_tweets.csv
 
-## Upload the tweets
+## 2. Upload the tweets
 
 Login as the admin user then visit http://DOMAIN/coding/upload/
 
 Here you can upload your file of tweets.
 
-## Add coding categories
+## 3. Add coding categories
 
 Login in to the admin interface (see below). Select the Categories section. From
 the next page click the "+ Add Category" button to add a coding category and its fields.
@@ -42,19 +42,19 @@ Note the interface does NOT yet support categories which are contingent on other
 or are subsets of other categories. You may need to add an N/A option to any
 category which can be blank when users code the tweets.
 
-## Register users to code tweets
+## 4. Register users to code tweets
 
 Once the tweets are in the database with the correct labels now you can create users and assign them a a label to encode. Visit http://DOMAIN/coding/upload/
 to add users. Tweet Label assigns which tweets a user will be shown
 
-## Register 1 or more recoder users
+## 5. Register 0 or more recoder users
 
 If you wish to allow users to re-code previously coded tweets select the
 Recoder option which creating a user. This overrides the Tweet Label setting.
 Recoding users are shown random tweets to code from the complete set of previously
 coded tweets
 
-## Monitoring progress
+## 6. Monitoring progress
 
 ### Summary stats
 
@@ -68,16 +68,16 @@ Counts of tweets assigned to each category are also listed
 If you have a tweet ID you can check it's coding and recoding at
 http://DOMAIN/coding/tweet/[TWITTER_ID]
 
-## Dump all coded tweets
+## 7. Dump all coded tweets
 
 If you wish to download the coding data this can be dumped at http://DOMAIN/coding/dump/
 
-# Coding tweets
+# CODING TWEETS
 
 Go to the login page http://DOMAIN/coding/login and log in as a user other than
 Admin. The user will now be shown uncoded tweets for their coding category. Some progress stats are listed.
 
-#The Admin interface
+# ADMINISTRATION
 
 Visit http://DOMAIN/admin/ and log in to access the administrative interface.
 From here you can administer various portions of the system.
