@@ -1,26 +1,26 @@
 # INSTALL
 
-'''
+```
 > git clone https://github.com/DanBuchan/twittercoding.git
 > pip -r install requirements
 > python manage.py createsuperuser
-'''
+```
 
 # HOW IT WORKS
 
 ## 1. Format you tweet csv correctly
 
-First of all you MUST format your tweet file correctly. For now it is required
+First of all you **MUST** format your tweet file correctly. For now it is required
 to be in csv format with the following columns
 
-* Numeric column
-* Tweet ID
-* tweet timestamp
-* twitter username
-* language
-* coordinates
-* text
-* label
+1. Numeric column
+2. Tweet ID
+3. tweet timestamp
+4. twitter username
+5. language
+6. coordinates
+7. text
+8. label
 
 The label the broad category of the tweet and is used to assign which users
 will code which tweets. For instance if our tweets were for UK politicians we
@@ -31,7 +31,7 @@ If you look in the data dir there is and example correctly formatted input file 
 
 ## 2. Upload the tweets
 
-Login as the admin user then visit http://DOMAIN/coding/upload/
+Login as the admin user then visit `http://DOMAIN/coding/upload/`
 
 Here you can upload your file of tweets.
 
@@ -46,7 +46,7 @@ category which can be blank when users code the tweets.
 
 ## 4. Register users to code tweets
 
-Once the tweets are in the database with the correct labels now you can create users and assign them a a label to encode. Visit http://DOMAIN/coding/upload/
+Once the tweets are in the database with the correct labels now you can create users and assign them a a label to encode. Visit `http://DOMAIN/coding/upload/`
 to add users. Tweet Label assigns which tweets a user will be shown
 
 ## 5. Register 0 or more recoder users
@@ -60,7 +60,7 @@ coded tweets
 
 ### Summary stats
 
-Visit http://DOMAIN/coding/summary to see broad count stats on the number
+Visit `http://DOMAIN/coding/summary` to see broad count stats on the number
 of tweets in the database and the number that have been coded and recoded.
 
 Counts of tweets assigned to each category are also listed
@@ -68,20 +68,20 @@ Counts of tweets assigned to each category are also listed
 ### Tweet assignments
 
 If you have a tweet ID you can check it's coding and recoding at
-http://DOMAIN/coding/tweet/[TWITTER_ID]
+`http://DOMAIN/coding/tweet/[TWITTER_ID]`
 
 ## 7. Dump all coded tweets
 
-If you wish to download the coding data this can be dumped at http://DOMAIN/coding/dump/
+If you wish to download the coding data this can be dumped at `http://DOMAIN/coding/dump/`
 
 # CODING TWEETS
 
-Go to the login page http://DOMAIN/coding/login and log in as a user other than
+Go to the login page `http://DOMAIN/coding/login` and log in as a user other than
 Admin. The user will now be shown uncoded tweets for their coding category. Some progress stats are listed.
 
 # ADMINISTRATION
 
-Visit http://DOMAIN/admin/ and log in to access the administrative interface.
+Visit `http://DOMAIN/admin/` and log in to access the administrative interface.
 From here you can administer various portions of the system.
 
 ## Authentication
