@@ -5,12 +5,7 @@
 
         {% if tweet %}
 
-          <ul>
-              <li>{{ tweet.tweet_id }}</li>
-              <li>{{ tweet.timestamp }}</li>
-              <li>{{ tweet.user_name }}</li>
-              <li>{{ tweet.tweet_text }}</li>
-          </ul>
+        {{ embedded_tweet |safe }}
 
         {% if coding %}
           <h2>Coded</h2>

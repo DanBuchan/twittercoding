@@ -12,6 +12,19 @@ from coding.models import Tweet, Code, Category, Feature
 from coding.forms import UserForm, UserProfileForm, TweetForm
 
 
+def get_tweet(tweet):
+    embedded_tweet = "<div></div>"
+    try:
+        twitter_embed_url = "https://api.twitter.com/1/statuses/oembed.json?hide_media=1&url=https://twitter.com/Interior/status/"
+        r = requests.get(twitter_embed_url+str(tweet.tweet_id))
+        embed_json = r.json()
+        embedded_tweet = embed_json['html']
+    except:
+        #send to log in future
+        print("Could not get tweet!")
+    return(embedded_tweet)
+
+
 def tweet(request, tweet_id):
     tweet = Tweet.objects.get(tweet_id=tweet_id)
     coding = Code.objects.filter(tweet=tweet, primary_coding=True).all()
@@ -19,11 +32,12 @@ def tweet(request, tweet_id):
     categories = categories = Category.objects.all()
 
     context_dict = {'tweet': tweet,
+                    'embedded_tweet': get_tweet(tweet),
                     'coding': coding,
                     'recoding': recoding,
-                    'categories': categories,}
+                    'categories': categories,
+                    }
     return render(request, 'coding/tweet.html', context_dict)
-
 
 def get_db_info(current_user, form, error):
     coded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=True).count()
@@ -40,12 +54,9 @@ def get_db_info(current_user, form, error):
     categories = Category.objects.all()
     # here we should get the tweet html as per the twitter API
 
-    embedded_tweet = "<div></div>"
+    embedded_tweet = ''
     for tweet in tweet_list:
-        twitter_embed_url = "https://api.twitter.com/1/statuses/oembed.json?hide_media=1&url=https://twitter.com/Interior/status/"
-        r = requests.get(twitter_embed_url+str(tweet.tweet_id))
-        embed_json = r.json()
-        embedded_tweet = embed_json['html']
+        embedded_tweet = get_tweet(tweet)
 
     context_dict = {'tweets': tweet_list,
                     'embedded_tweet': embedded_tweet,

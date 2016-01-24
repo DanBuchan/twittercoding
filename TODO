@@ -1,8 +1,19 @@
-1. Form validation in index is clunky and should be rewritten
-2. No support for categories being subsets of other categories, which means
-   YOU MUST provide an answer for all coding categories
-3. Add bulk loading interface for admin
+3. Add bulk loading interface
 5. Add summary statistics page
 6. add reply to field in the tweet model
-7. view link to follow conversation
 8. Docs!
+
+Full production changes:
+1. Switch to postgres
+2. logging
+3. testing
+4. Add ability to have simultaneous projects
+5. Only admin can register new users
+6. Only admin can upload
+7. If twitter API fails we should display the text we have in the db
+8. re-write form validation in the index view
+9. Nested/contingent categories
+10. Mark private functions
+11. Why does twitter styling take so long to load?
+12. Deleting a code should unset the coded/recoded boolean in the tweet table
+13. Deleting a project should cascade delete the tweets, codes, users and categories

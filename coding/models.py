@@ -9,7 +9,7 @@ class Tweet(models.Model):
     user_name = models.CharField(max_length=128)
     label = models.CharField(max_length=20, null=True)
     tweet_text = models.CharField(max_length=200)
-
+    reply_to = models.CharField(max_length=200, null=True)
     coded = models.BooleanField(default=False, blank=False)
     recoded = models.BooleanField(default=False, blank=False)
 
