@@ -19,7 +19,7 @@ class UserProfileForm(forms.ModelForm):
         self.fields['tweet_label'].choices = Tweet.objects.all().values_list("label","label").distinct()
 
     tweet_label = forms.ChoiceField(choices=[])
-    recoder = forms.BooleanField(initial=False)
+    recoder = forms.BooleanField(initial=False, required=False)
 
     class Meta:
         model = UserProfile

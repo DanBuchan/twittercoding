@@ -13,9 +13,9 @@ from django.contrib import messages
 from coding.models import Tweet, Code, Category, Feature
 from coding.forms import UserForm, UserProfileForm, TweetForm
 
+
 @login_required
 def upload(request):
-#    [word for word in message.split() if word.startswith('@')]
     if request.method == 'POST':
         file = request.FILES['csv_file']
         f = StringIO(file.read().decode())
@@ -62,6 +62,7 @@ def dump(request):
 
 def get_tweet(tweet):
     embedded_tweet = "<div></div>"
+    # print(tweet.tweet_id)
     try:
         twitter_embed_url = "https://api.twitter.com/1/statuses/oembed.json?hide_media=1&url=https://twitter.com/Interior/status/"
         r = requests.get(twitter_embed_url+str(tweet.tweet_id))
@@ -135,25 +136,24 @@ def index(request):
     if request.method == 'POST':
         form = TweetForm(request.POST)
         if form.is_valid():
-            #print(request.POST)
             tweet = Tweet.objects.get(tweet_id=request.POST['tweet_id'])
             # Save the new category to the database.
 
-            #check we have recieved a selection for each radio button
+            # check we have recieved a selection for each radio button
             total_cats = Category.objects.all().count()
             cat_count = 0
             for key in request.POST:
                 if key.startswith("category"):
-                    cat_count+=1
+                    cat_count += 1
 
-            #if yes save each one to code
+            # if yes save each one to code
             if cat_count == total_cats:
                 for key in request.POST:
                     if key.startswith("category"):
                         cat_key = key.lstrip("category_")
                         cat = Category.objects.get(pk=cat_key)
                         feat = Feature.objects.get(pk=request.POST[key])
-                        if current_user.userprofile.recoder == True:
+                        if current_user.userprofile.recoder is True:
                             c = Code(recoding=True, tweet=tweet, category=cat, feature=feat)
                             c.save()
                         else:
@@ -166,7 +166,7 @@ def index(request):
             # The user will be shown the homepage.
 
             tweet = Tweet.objects.get(tweet_id=request.POST['tweet_id'])
-            if current_user.userprofile.recoder == True:
+            if current_user.userprofile.recoder is True:
                 tweet.recoded = True
             else:
                 tweet.coded = True
@@ -218,8 +218,10 @@ def register(request):
 
     # Render the template depending on the context.
     return render(request,
-            'coding/register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+                  'coding/register.html',
+                  {'user_form': user_form,
+                   'profile_form': profile_form,
+                   'registered': registered})
 
 
 def user_login(request):

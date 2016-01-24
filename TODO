@@ -1,7 +1,6 @@
 1. Add summary statistics page
-2. Blank tweets???
-3. Nice category styling
-4. Docs!
+2. Nice category styling
+3. Docs!
 
 Full production changes:
 1. Switch to postgres
