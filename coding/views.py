@@ -12,6 +12,11 @@ from coding.models import Tweet, Code, Category, Feature
 from coding.forms import UserForm, UserProfileForm, TweetForm
 
 
+def upload(request):
+#    [word for word in message.split() if word.startswith('@')]
+    pass
+
+
 def dump(request):
     tweets = Tweet.objects.filter(coded=True).all()
 
@@ -21,7 +26,7 @@ def dump(request):
         contents += ",Coding:"+str(cat)
     for cats in categories:
         contents += ",Recoding:"+str(cat)
-    contents +="\n"
+    contents += "\n"
 
     for tweet in tweets:
         contents += str(tweet.tweet_id)+","+tweet.user_name+","+tweet.label
@@ -44,7 +49,7 @@ def get_tweet(tweet):
         embed_json = r.json()
         embedded_tweet = embed_json['html']
     except:
-        #send to log in future
+        # send to log in future
         print("Could not get tweet!")
     return(embedded_tweet)
 
@@ -79,8 +84,12 @@ def get_db_info(current_user, form, error):
     # here we should get the tweet html as per the twitter API
 
     embedded_tweet = ''
+    replies = None
     for tweet in tweet_list:
         embedded_tweet = get_tweet(tweet)
+        if len(tweet.reply_to) > 0:
+            replies = tweet.reply_to.split(", ")
+            replies = ["https://twitter.com/"+s for s in replies]
 
     context_dict = {'tweets': tweet_list,
                     'embedded_tweet': embedded_tweet,
@@ -91,7 +100,8 @@ def get_db_info(current_user, form, error):
                     'error': error,
                     'categories': categories,
                     'coding_message': coding_message,
-                    'progress_message': progress_message,}
+                    'progress_message': progress_message,
+                    'replies': replies}
     return(context_dict)
 
 @login_required

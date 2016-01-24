@@ -26,6 +26,13 @@
                   {{ field }}
               {% endfor %}
 
+              {% if replies %}
+              <h3>This tweet mentions</h3>
+                {% for at in replies%}
+                <a href="{{ at }}">{{ at }}</a><br />
+                {% endfor %}
+              {% endif %}
+
               {% for category in categories %}
                 <h3>{{ category }}</h3>
                 {% for feature in category.features.all %}
