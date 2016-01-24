@@ -6,7 +6,7 @@
         <h1>Hello {{ user.username }}</h1>
         <h2>{{ coding_message}}</h2>
         <h2>{{ progress_message}}</h2>
-        <h3>{{ error }}</h3>
+        <h3 style="color:red">{{ error }}</h3>
         {% if tweets %}
 
         {{ embedded_tweet |safe }}
@@ -35,7 +35,7 @@
               <br />
 
               {% for category in categories %}
-                <div style="background:{% cycle '#aaffaa' '#ffdb9b' '#ffaaaa' '#aaaaff' %};border:3px;border-style:solid;border-color: {% cycle '#50af50' '#ffb12a' '#af5050' '#5050af' %};border-radius: 15px;padding: 0px 0px 10px 10px;" >
+                <div style="background:{% cycle '#8dd3c7' '#ffffb3' '#bebada' '#fb8072' '#80b1d3' '#fdb462' '#b3de69' '#fccde5' '#d9d9d9' '#bc80bd' %};border:5px;border-style:solid;border-color: {% cycle '#7cc2b6' '#eeeea2' '#ada9a9' '#ea7061' '#70a0c2' '#eca351' '#a2cd58' '#ebbbcd' '#c8c8c8' '#ab70ac' %};border-radius: 15px;padding: 0px 0px 10px 10px;" >
                 <h3>{{ category }}</h3>
                 {% for feature in category.features.all %}
                 <input type="radio" name="category_{{ category.pk }}" value="{{ feature.pk }}"> {{ feature }}&nbsp;&nbsp;
