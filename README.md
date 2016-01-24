@@ -51,14 +51,16 @@ category which can be blank when users code the tweets.
 Once the tweets are in the database with the correct labels now you can 
 create users and assign them a label to encode. **DO NOT** add users 
 until the tweets are successfully loaded. Visit `http://DOMAIN/coding/register/` 
-to add users. Tweet Label assigns which tweets a user will be shown
+to add users. Note that the Tweet Label field is taken from column 8 in the csv
+in step 1. The selection on user registration assigns which tweets a user will 
+be shown.
 
 ## 5. Register 0 or more recoder users
 
 If you wish to allow users to re-code previously coded tweets select the
 Recoder option which creating a user. This overrides the Tweet Label setting.
 Recoding users are instead shown random tweets from the complete set of previously
-coded tweets
+coded tweets.
 
 ## 6. Monitoring progress
 
