@@ -1,5 +1,7 @@
 import requests
 import json
+import csv
+from io import StringIO
 
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
@@ -11,10 +13,27 @@ from django.contrib import messages
 from coding.models import Tweet, Code, Category, Feature
 from coding.forms import UserForm, UserProfileForm, TweetForm
 
-
+@login_required
 def upload(request):
 #    [word for word in message.split() if word.startswith('@')]
-    pass
+    if request.method == 'POST':
+        file = request.FILES['csv_file']
+        f = StringIO(file.read().decode())
+        data = [row for row in csv.reader(f.read().splitlines())]
+
+        for row in data:
+            if len(row[0]) < 1:
+                continue
+            reply_to = [word for word in row[6].split() if word.startswith('@')]
+            reply_to = ', '.join(reply_to)
+
+            t = Tweet(tweet_id=int(row[1]), timestamp=int(row[2]),
+                      user_name=row[3], label=row[7], tweet_text=row[6],
+                      reply_to=reply_to)
+            t.save()
+        return HttpResponse("Tweets Uploaded.")
+    else:
+        return render(request, 'coding/upload.html', {})
 
 
 def dump(request):

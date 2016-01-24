@@ -1,5 +1,5 @@
-1. Add bulk loading interface
-2. Add summary statistics page
+1. Add summary statistics page
+2. Blank tweets???
 3. Nice category styling
 4. Docs!
 
@@ -17,3 +17,4 @@ Full production changes:
 11. Why does twitter styling take so long to load?
 12. Deleting a code should unset the coded/recoded boolean in the tweet table
 13. Deleting a project should cascade delete the tweets, codes, users and categories
+14. Better handling for failed file uploads
