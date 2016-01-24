@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+      {% if user.is_authenticated %}
+        <h1>Hello {{ user.username }}</h1>
+        <h2>{{ coding_message}}</h2>
+        <h2>{{ progress_message}}</h2>
+        <h3>{{ error }}</h3>
+
+        <h3>Database Contents</h3>
+        <h4>Tweets : {{ tweet_count }}</h4>
+        <h4>Coded : {{ coded_count }} </h4>
+        <h4>Recoded : {{ recoded_count }}</h4>
+
+        <h3>Category Summary</h3>
+        {% for category, features in coding_counts.items %}
+        <h4>{{ category }}:</h4>
+          {% for feature, value in features.items %}
+            <h5>{{ feature }} : {{ value }}</h5>
+          {% endfor %}
+        {% endfor %}
+
+      {% else %}
+        <h1>How did you get here? Something has gone very wrong</h1>
+      {% endif %}
+
+{% endblock %}

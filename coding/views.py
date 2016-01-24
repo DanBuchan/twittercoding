@@ -13,6 +13,26 @@ from django.contrib import messages
 from coding.models import Tweet, Code, Category, Feature
 from coding.forms import UserForm, UserProfileForm, TweetForm
 
+@login_required
+def summary(request):
+    tweet_count = Tweet.objects.all().count()
+    coded_count = Tweet.objects.filter(coded=True).all().count()
+    recoded_count = Tweet.objects.filter(recoded=True).all().count()
+
+    codings = Code.objects.all()
+    coding_counts = {}
+    for coding in codings:
+        coding_counts.setdefault(str(coding.category), {})[str(coding.feature)] = 0
+    for coding in codings:
+        coding_counts[str(coding.category)][str(coding.feature)] += 1
+
+    print(coding_counts)
+    context_dict = {'tweet_count': tweet_count,
+                    'coded_count': coded_count,
+                    'redcoded_count': recoded_count,
+                    'coding_counts': coding_counts,
+                    }
+    return render(request, 'coding/summary.html', context_dict)
 
 @login_required
 def upload(request):

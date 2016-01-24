@@ -10,4 +10,5 @@ urlpatterns = patterns('',
         url(r'^tweet/(?P<tweet_id>[\w\-]+)/$', views.tweet, name='tweet'),
         url(r'^dump/$', views.dump, name='dump'),
         url(r'^upload/$', views.upload, name='upload'),
+        url(r'^summary/$', views.summary, name='summary'),
         )
