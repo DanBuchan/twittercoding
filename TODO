@@ -16,3 +16,4 @@ Full production changes:
 12. Deleting a code should unset the coded/recoded boolean in the tweet table
 13. Deleting a project should cascade delete the tweets, codes, users and categories
 14. Better handling for failed file uploads
+15. Styling to CSS

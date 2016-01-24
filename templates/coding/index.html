@@ -32,14 +32,18 @@
                 <a href="{{ at }}">{{ at }}</a><br />
                 {% endfor %}
               {% endif %}
+              <br />
 
               {% for category in categories %}
+                <div style="background:{% cycle '#aaffaa' '#ffdb9b' '#ffaaaa' '#aaaaff' %};border:3px;border-style:solid;border-color: {% cycle '#50af50' '#ffb12a' '#af5050' '#5050af' %};border-radius: 15px;padding: 0px 0px 10px 10px;" >
                 <h3>{{ category }}</h3>
                 {% for feature in category.features.all %}
-                <input type="radio" name="category_{{ category.pk }}" value="{{ feature.pk }}">{{ feature }}<br>
+                <input type="radio" name="category_{{ category.pk }}" value="{{ feature.pk }}"> {{ feature }}&nbsp;&nbsp;
                 {% endfor%}
+                </div>
+                <br />
               {% endfor %}
-
+              <br />
               <button class="btn btn-danger" type="reset">Reset</button>
               <input type="submit" name="submit" value="Code" />
           </form>

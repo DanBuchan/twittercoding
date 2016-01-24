@@ -109,6 +109,7 @@ def tweet(request, tweet_id):
     return render(request, 'coding/tweet.html', context_dict)
 
 def get_db_info(current_user, form, error):
+
     coded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=True).count()
     uncoded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).count()
     tweet_list = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).order_by('-tweet_id')[:1]
@@ -141,7 +142,7 @@ def get_db_info(current_user, form, error):
                     'categories': categories,
                     'coding_message': coding_message,
                     'progress_message': progress_message,
-                    'replies': replies}
+                    'replies': replies,}
     return(context_dict)
 
 @login_required
