@@ -12,6 +12,30 @@ from coding.models import Tweet, Code, Category, Feature
 from coding.forms import UserForm, UserProfileForm, TweetForm
 
 
+def dump(request):
+    tweets = Tweet.objects.filter(coded=True).all()
+
+    contents = "tweet_id,username,label,coding,recoding"
+    categories = Category.objects.all()
+    for cat in categories:
+        contents += ",Coding:"+str(cat)
+    for cats in categories:
+        contents += ",Recoding:"+str(cat)
+    contents +="\n"
+
+    for tweet in tweets:
+        contents += str(tweet.tweet_id)+","+tweet.user_name+","+tweet.label
+        codes = Code.objects.filter(tweet=tweet, primary_coding=True, recoding=False).all()
+        for code in codes:
+            contents += ","+str(code.feature)
+        recodes = Code.objects.filter(tweet=tweet, primary_coding=True, recoding=False).all()
+        for code in recodes:
+            contents += ","+str(code.feature)
+        contents += "\n"
+
+    return HttpResponse(contents, content_type='text/plain')
+
+
 def get_tweet(tweet):
     embedded_tweet = "<div></div>"
     try:
@@ -29,7 +53,7 @@ def tweet(request, tweet_id):
     tweet = Tweet.objects.get(tweet_id=tweet_id)
     coding = Code.objects.filter(tweet=tweet, primary_coding=True).all()
     recoding = Code.objects.filter(tweet=tweet, recoding=True).all()
-    categories = categories = Category.objects.all()
+    categories = Category.objects.all()
 
     context_dict = {'tweet': tweet,
                     'embedded_tweet': get_tweet(tweet),

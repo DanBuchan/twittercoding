@@ -4,9 +4,13 @@
 > pip -r install requirements
 > python manage.py createsuperuser
 
-# TODO
+# HOW IT WORKS
+## Format you tweet csv correctly
+## Upload the tweets
+## Register users to code tweets
+## Register 1 or more recoder users
 
-1. Add user reg and log in provide party category
-2. Show one tweet at a time for the given log in user with the given party_code
-3. A random user gets random tweets to recode
-4. some minor stats
+## View coded tweets
+## Dump all coded tweets
+
+##The admin interface
