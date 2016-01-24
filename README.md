@@ -1,8 +1,10 @@
 # INSTALL
 
+'''
 > git clone https://github.com/DanBuchan/twittercoding.git
 > pip -r install requirements
 > python manage.py createsuperuser
+'''
 
 # HOW IT WORKS
 
