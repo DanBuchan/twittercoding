@@ -1,6 +1,10 @@
 import requests
 import json
 import csv
+import pprint
+import oauth2 as oauth
+import urllib.parse
+
 from io import StringIO
 
 from django.shortcuts import render
@@ -16,21 +20,23 @@ from coding.forms import UserForm, UserProfileForm, TweetForm
 @login_required
 def summary(request):
     tweet_count = Tweet.objects.all().count()
-    coded_count = Tweet.objects.filter(coded=True).all().count()
-    recoded_count = Tweet.objects.filter(recoded=True).all().count()
 
-    codings = Code.objects.all()
-    coding_counts = {}
-    for coding in codings:
-        coding_counts.setdefault(str(coding.category), {})[str(coding.feature)] = 0
-    for coding in codings:
-        coding_counts[str(coding.category)][str(coding.feature)] += 1
+    codings = Code.objects.values_list('tweet', flat=True).distinct()
+    coded_tweets = Tweet.objects.filter(id__in=codings)
+    # categories = Category.objects.all()
+    #
+    # coding_counts = {}
+    # for u in users:
+    #     for cat in categories:
+    #         features = cat.features.all()
+    #         for f in features:
+    #             coding_counts.setdefault(str(cat), {})[str(f)] = 0
+    # for element in codings:
+    #     coding_counts[str(coding.category)][str(coding.feature)] += 1
 
-    print(coding_counts)
     context_dict = {'tweet_count': tweet_count,
-                    'coded_count': coded_count,
-                    'redcoded_count': recoded_count,
-                    'coding_counts': coding_counts,
+                    'coded_count': len(coded_tweets),
+#                    'coding_counts': coding_counts,
                     }
     return render(request, 'coding/summary.html', context_dict)
 
@@ -45,6 +51,7 @@ def upload(request):
             if len(row[0]) < 1:
                 continue
             reply_to = [word for word in row[6].split() if word.startswith('@')]
+            reply_to = [s.rstrip(':') for s in reply_to]
             reply_to = ', '.join(reply_to)
 
             t = Tweet(tweet_id=int(row[1]), timestamp=int(row[2]),
@@ -57,70 +64,76 @@ def upload(request):
 
 
 def dump(request):
-    tweets = Tweet.objects.filter(coded=True).all()
+    pp = pprint.PrettyPrinter(indent=4)
 
-    contents = "tweet_id,username,label,coding,recoding"
+    coded = Code.objects.values('tweet', ).distinct()
+    coded_tweets = Tweet.objects.filter(id__in=coded)
+
+    contents = "tweet_id,username,label,user"
     categories = Category.objects.all()
     for cat in categories:
-        contents += ",Coding:"+str(cat)
-    for cats in categories:
-        contents += ",Recoding:"+str(cat)
+        contents += ","+str(cat)
     contents += "\n"
 
-    for tweet in tweets:
-        contents += str(tweet.tweet_id)+","+tweet.user_name+","+tweet.label
-        codes = Code.objects.filter(tweet=tweet, primary_coding=True, recoding=False).all()
-        for code in codes:
-            contents += ","+str(code.feature)
-        recodes = Code.objects.filter(tweet=tweet, primary_coding=True, recoding=False).all()
-        for code in recodes:
-            contents += ","+str(code.feature)
-        contents += "\n"
+    annotations = {}
+    for tweet in coded_tweets:
 
-    return HttpResponse(contents, content_type='text/plain')
+        print(tweet)
+        codings = Code.objects.filter(tweet=tweet).all()
+        pp.pprint(codings)
+        for code in codings:
+            annotations.setdefault(str(code.user), {})[str(code.category)] = str(code.feature)
+
+        for user in annotations:
+            contents += str(tweet.tweet_id)+","+tweet.user_name+","+tweet.label+","+user
+            codes = annotations[user]
+            for cat in categories:
+                if str(cat) in codes:
+                    contents += ","+codes[str(cat)]
+                else:
+                    contents += ",NOT CODED"
+            contents += "\n"
+    #return HttpResponse(contents, content_type='text/plain')
+    response = HttpResponse(contents, content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename=codings.csv'
+    return response
 
 
 def get_tweet(tweet):
     embedded_tweet = "<div></div>"
     # print(tweet.tweet_id)
     try:
-        twitter_embed_url = "https://api.twitter.com/1/statuses/oembed.json?hide_media=1&url=https://twitter.com/Interior/status/"
-        r = requests.get(twitter_embed_url+str(tweet.tweet_id))
+        twitter_embed_url = "https://api.twitter.com/1/statuses/oembed.json?hide_thread=1&hide_media=1&id="+str(tweet.tweet_id)
+        r = requests.get(twitter_embed_url)
         embed_json = r.json()
         embedded_tweet = embed_json['html']
     except:
         # send to log in future
-        print("Could not get tweet!")
+        embedded_tweet = "<div class='col-sm-4 col-md-4' style='background:#d9d9d9;' ><h3>Tweet Could Not Be Retrieved</h3><h3>User: "+tweet.user_name+"</h3><h4>Stored Text: "+tweet.tweet_text+"</h4></div>"
     return(embedded_tweet)
 
 
 def tweet(request, tweet_id):
     tweet = Tweet.objects.get(tweet_id=tweet_id)
-    coding = Code.objects.filter(tweet=tweet, primary_coding=True).all()
-    recoding = Code.objects.filter(tweet=tweet, recoding=True).all()
     categories = Category.objects.all()
 
     context_dict = {'tweet': tweet,
                     'embedded_tweet': get_tweet(tweet),
-                    'coding': coding,
-                    'recoding': recoding,
                     'categories': categories,
                     }
     return render(request, 'coding/tweet.html', context_dict)
 
+
 def get_db_info(current_user, form, error):
 
-    coded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=True).count()
-    uncoded = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).count()
-    tweet_list = Tweet.objects.filter(label=current_user.userprofile.tweet_label, coded=False).order_by('-tweet_id')[:1]
+    codings = Code.objects.filter(user=current_user).values_list('tweet', flat=True).distinct()
+    coded_tweets = Tweet.objects.filter(id__in=codings)
+    total =  Tweet.objects.filter(label=current_user.userprofile.tweet_label).count()
+    coded = Tweet.objects.filter(id__in=codings).count()
+    uncoded = total-coded
+    tweet_list = Tweet.objects.filter(label=current_user.userprofile.tweet_label).exclude(id__in=codings).order_by('-tweet_id')[:1]
     coding_message = "You are currently coding for tweets marked "+current_user.userprofile.tweet_label
     progress_message = "You have coded "+str(coded)+" "+current_user.userprofile.tweet_label+" tweets. There are "+str(uncoded)+" to do."
-    if current_user.userprofile.recoder == True:
-        coded = Tweet.objects.filter(coded=True, recoded=True).count()
-        uncoded = Tweet.objects.filter(coded=True, recoded=False).count()
-        tweet_list = Tweet.objects.filter(coded=True, recoded=False).order_by('?')[:1]
-        coding_message = "You are currently recoding randomised tweets"
-        progress_message = "You have recoded "+str(coded)+" tweets. There are "+str(uncoded)+" to do."
     categories = Category.objects.all()
     # here we should get the tweet html as per the twitter API
 
@@ -128,9 +141,13 @@ def get_db_info(current_user, form, error):
     replies = None
     for tweet in tweet_list:
         embedded_tweet = get_tweet(tweet)
+        #embedded_bio = get_bio(tweet.user_name)
+        #embedd_reply = ''
+
         if len(tweet.reply_to) > 0:
             replies = tweet.reply_to.split(", ")
-            replies = ["https://twitter.com/"+s for s in replies]
+            #embedded_reply = get_bio(replies[0])
+            replies = ["https://twitter.com/intent/user/?screen_name="+s for s in replies]
 
     context_dict = {'tweets': tweet_list,
                     'embedded_tweet': embedded_tweet,
@@ -174,25 +191,13 @@ def index(request):
                         cat_key = key.lstrip("category_")
                         cat = Category.objects.get(pk=cat_key)
                         feat = Feature.objects.get(pk=request.POST[key])
-                        if current_user.userprofile.recoder is True:
-                            c = Code(recoding=True, tweet=tweet, category=cat, feature=feat)
-                            c.save()
-                        else:
-                            c = Code(primary_coding=True, tweet=tweet, category=cat, feature=feat)
-                            c.save()
+                        c = Code(tweet=tweet, category=cat, feature=feat, user=current_user)
+                        c.save()
             else:
                 context_dict = get_db_info(current_user, form, 'Please make selections for all categories')
                 return render(request, 'coding/index.html', context_dict)
             # Now call the index() view.
             # The user will be shown the homepage.
-
-            tweet = Tweet.objects.get(tweet_id=request.POST['tweet_id'])
-            if current_user.userprofile.recoder is True:
-                tweet.recoded = True
-            else:
-                tweet.coded = True
-            tweet.save()
-
         else:
             # The supplied form contained errors - just print them to the terminal.
             print(form.errors)

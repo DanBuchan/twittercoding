@@ -1,14 +1,9 @@
-1. Swap radio buttons for something bigger and more obvious
-2. Layout to reduce the amount of scrolling
 3. Conditional features/categories
+
 4. browser side form checking
-5. get rid of recoder user option, have accounts recode tweets
-6. Export should trigger download
-7. Add retweet sign to tweet panel
-8. Add author bio panel
-9. Add the bio of the 1st mentioned person
-10. Handle missing data and API failes
 11. Cascading deletes for codes if you delete a tweet
+12. Summary and tweet pages should show the breakdown of each users coding
+
 
 Full production changes:
 1. Switch to postgres
@@ -26,3 +21,4 @@ Full production changes:
 11. Better handling for failed file uploads
 12. Styling to CSS
 13. With projects we can set which tweets to be automatically harvested
+14. Switch to twitter API v1.1, oAuth change needed, complicated!

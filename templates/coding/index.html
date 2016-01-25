@@ -9,7 +9,15 @@
         <h3 style="color:red">{{ error }}</h3>
         {% if tweets %}
 
-        {{ embedded_tweet |safe }}
+        {% for tweet in tweets %}
+        <h4>This is tweet with ID <a href="https://twitter.com/Interior/status/{{ tweet.tweet_id }}">{{ tweet.tweet_id }}</a> from <a href="https://twitter.com/intent/user/?screen_name={{ tweet.user_name }}">{{ tweet.user_name }}</a></h4>
+        {% endfor %}
+
+        <div class="col-sm-12 col-md-12" style="display: flex;">
+            <div class="col-sm-4 col-md-4"></div>
+            <div class="col-sm-4 col-md-4">{{ embedded_tweet |safe }}</div>
+            <div class="col-sm-4 col-md-4"></div>
+        </div>
 
           <form id="tweet_form" method="post" action="/coding/index/">
 
@@ -27,25 +35,35 @@
               {% endfor %}
 
               {% if replies %}
-              <h3>This tweet mentions</h3>
+              <h3>This tweet also mentions</h3>
                 {% for at in replies%}
                 <a href="{{ at }}">{{ at }}</a><br />
                 {% endfor %}
               {% endif %}
               <br />
 
-              {% for category in categories %}
-                <div style="background:{% cycle '#8dd3c7' '#ffffb3' '#bebada' '#fb8072' '#80b1d3' '#fdb462' '#b3de69' '#fccde5' '#d9d9d9' '#bc80bd' %};border:5px;border-style:solid;border-color: {% cycle '#7cc2b6' '#eeeea2' '#ada9a9' '#ea7061' '#70a0c2' '#eca351' '#a2cd58' '#ebbbcd' '#c8c8c8' '#ab70ac' %};border-radius: 15px;padding: 0px 0px 10px 10px;" >
-                <h3>{{ category }}</h3>
+              <div class="col-sm-12 col-md-12" style="display: flex;">
+             {% for category in categories %}
+                <div class="col-sm-2 col-md-2" style="background:{% cycle '#8dd3c7' '#ffffb3' '#bebada' '#fb8072' '#80b1d3' '#fdb462' '#b3de69' '#fccde5' '#d9d9d9' '#bc80bd' %};border:5px;border-style:solid;border-color: {% cycle '#7cc2b6' '#eeeea2' '#ada9a9' '#ea7061' '#70a0c2' '#eca351' '#a2cd58' '#ebbbcd' '#c8c8c8' '#ab70ac' %};border-radius: 15px;padding: 0px 0px 10px 10px;margin: 5px 5px 5px 5px" >
+                <h5>{{ category }}</h5>
+                <table>
                 {% for feature in category.features.all %}
-                <input type="radio" name="category_{{ category.pk }}" value="{{ feature.pk }}"> {{ feature }}&nbsp;&nbsp;
+                  <tr><td>{{ feature }}&nbsp;</td><td><input type="radio" name="category_{{ category.pk }}" value="{{ feature.pk }}" data-size="mini" data-off-text="No" data-on-text="Yes"></td></tr>
                 {% endfor%}
+                </table>
                 </div>
-                <br />
+                {% if forloop.counter|divisibleby:6 %}
+                </div><div class="col-sm-12 col-md-12" style="display: flex;">
+                {% endif %}
               {% endfor %}
-              <br />
-              <button class="btn btn-danger" type="reset">Reset</button>
-              <input type="submit" name="submit" value="Code" />
+              </div>
+
+
+              <div class="col-sm-12 col-md-12">
+                <br />
+                <button class="btn btn-danger" type="reset">Reset</button>
+                <input type="submit" name="submit" value="Code" />
+              </div>
           </form>
 
         {% else %}

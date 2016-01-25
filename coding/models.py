@@ -36,7 +36,7 @@ class Feature(models.Model):
 class Code(models.Model):
     category = models.ForeignKey(Category, null=True)
     feature = models.ForeignKey(Feature, null=True)
-    tweet = models.ForeignKey(Tweet, null=True)
+    tweet = models.ForeignKey(Tweet, null=True, related_name="coding")
     user = models.ForeignKey(User)
     # basically this table links tweets to features many-to-many table I guess
 
