@@ -8,6 +8,8 @@
 
 # HOW IT WORKS
 
+To start the system you **MUST** do these steps in this numerical order.
+
 ## 1. Format you tweet csv correctly
 
 First of all you **MUST** format your tweet file correctly. For now it is required
@@ -22,10 +24,10 @@ to be in csv format with the following columns
 7. text
 8. label
 
-The label the broad category of the tweet and is used to assign which users
+The label is the broad category of the tweet and is used to assign which users
 will code which tweets. For instance if our tweets were for UK politicians we
 might use the label CON for conservative politician tweets and LAB for labour
-politician tweets.
+politician tweets and so forth
 
 If you look in the data dir there is and example correctly formatted input file called test_tweets.csv
 
@@ -37,24 +39,28 @@ Here you can upload your file of tweets.
 
 ## 3. Add coding categories
 
-Login in to the admin interface (see below). Select the Categories section. From
+Login in to the admin interface (see below). Select the Categories section. On
 the next page click the "+ Add Category" button to add a coding category and its fields.
 
-Note the interface does NOT yet support categories which are contingent on others
+Note the interface does **NOT** yet support categories which are contingent on others
 or are subsets of other categories. You may need to add an N/A option to any
 category which can be blank when users code the tweets.
 
 ## 4. Register users to code tweets
 
-Once the tweets are in the database with the correct labels now you can create users and assign them a a label to encode. Visit `http://DOMAIN/coding/upload/`
-to add users. Tweet Label assigns which tweets a user will be shown
+Once the tweets are in the database with the correct labels now you can 
+create users and assign them a label to encode. **DO NOT** add users 
+until the tweets are successfully loaded. Visit `http://DOMAIN/coding/register/` 
+to add users. Note that the Tweet Label field is taken from column 8 in the csv
+in step 1. The selection on user registration assigns which tweets a user will 
+be shown.
 
 ## 5. Register 0 or more recoder users
 
 If you wish to allow users to re-code previously coded tweets select the
 Recoder option which creating a user. This overrides the Tweet Label setting.
-Recoding users are shown random tweets to code from the complete set of previously
-coded tweets
+Recoding users are instead shown random tweets from the complete set of previously
+coded tweets.
 
 ## 6. Monitoring progress
 
