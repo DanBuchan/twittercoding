@@ -1,18 +1,28 @@
-1. try, catch on the twitter API should return the db contents on failure
+1. Swap radio buttons for something bigger and more obvious
+2. Layout to reduce the amount of scrolling
+3. Conditional features/categories
+4. browser side form checking
+5. get rid of recoder user option, have accounts recode tweets
+6. Export should trigger download
+7. Add retweet sign to tweet panel
+8. Add author bio panel
+9. Add the bio of the 1st mentioned person
+10. Handle missing data and API failes
+11. Cascading deletes for codes if you delete a tweet
 
 Full production changes:
 1. Switch to postgres
 2. logging
 3. testing
 4. Add ability to have simultaneous projects
+5. Add ability to have the same coding schemes which can be set for multiple
+   projects
 5. Only admin should register new users
 6. Only admin should upload
 7. re-write form validation in the index view
-8. Enable Nested/contingent categories
-9. Mark private functions
-10. Why does twitter styling take so long to load?
-11. Deleting a code should unset the coded/recoded boolean in the tweet table
-12. Deleting a project should cascade delete the tweets, codes, users and categories
-13. Better handling for failed file uploads
-14. Styling to CSS
-15. With projects we can set which tweets to be automatically harvested
+8. Mark private functions
+9. Why does twitter styling take so long to load?
+10. Deleting a project should cascade delete the tweets, codes, users and categories
+11. Better handling for failed file uploads
+12. Styling to CSS
+13. With projects we can set which tweets to be automatically harvested
