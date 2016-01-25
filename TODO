@@ -3,14 +3,16 @@ Full production changes:
 2. logging
 3. testing
 4. Add ability to have simultaneous projects
-5. Only admin can register new users
+5. Only admin can register new users for a project
 6. Only admin can upload
 7. If twitter API fails we should display the text we have in the db
 8. re-write form validation in the index view
 9. Enable Nested/contingent categories
 10. Mark private functions
-11. Why does twitter styling take so long to load?
-12. Deleting a code should unset the coded/recoded boolean in the tweet table
-13. Deleting a project should cascade delete the tweets, codes, users and categories
-14. Better handling for failed file uploads
-15. Styling to CSS
+11. Deleting a code should unset the coded/recoded boolean in the tweet table
+12. Deleting a project should cascade delete the tweets, codes, users and categories
+13. Better handling for failed file uploads
+14. Styling to CSS
+15. On setting a project set a cron job to regularly gather tweets
+16. Global & project admins (project admins can only see their own
+    projects and users)
