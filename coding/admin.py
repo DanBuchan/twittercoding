@@ -18,6 +18,8 @@ class UserProfileAdmin(UserAdmin):
 class FeatureInline(admin.TabularInline):
     model = Feature
     extra = 3
+    fk_name = 'category'
+    list_display = ('first_name', 'last_name')
 
 
 class CategoryAdmin(admin.ModelAdmin):

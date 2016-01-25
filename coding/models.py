@@ -10,8 +10,6 @@ class Tweet(models.Model):
     label = models.CharField(max_length=20, null=True)
     tweet_text = models.CharField(max_length=200)
     reply_to = models.CharField(max_length=200, null=True)
-    coded = models.BooleanField(default=False, blank=False)
-    recoded = models.BooleanField(default=False, blank=False)
 
     # user = link to
 
@@ -27,27 +25,25 @@ class Category(models.Model):
 
 
 class Feature(models.Model):
-    category = models.ForeignKey(Category, related_name="features")
     name = models.CharField(max_length=256)
+    category = models.ForeignKey(Category, related_name="features")
+    child_category = models.ForeignKey(Category, blank=True, null=True, related_name="child_category")
 
     def __str__(self):  # For Python 2, use __str__ on Python 3
         return self.name
 
 
 class Code(models.Model):
-    primary_coding = models.BooleanField(default=False, blank=False)
-    recoding = models.BooleanField(default=False, blank=False)
     category = models.ForeignKey(Category, null=True)
     feature = models.ForeignKey(Feature, null=True)
     tweet = models.ForeignKey(Tweet, null=True)
-
+    user = models.ForeignKey(User)
     # basically this table links tweets to features many-to-many table I guess
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     tweet_label = models.CharField(max_length=20, null=False)
-    recoder = models.BooleanField(default=False, blank=False)
 
     def __unicode__(self):
         return self.user.username
