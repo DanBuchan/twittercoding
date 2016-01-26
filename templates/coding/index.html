@@ -14,7 +14,10 @@
             {% for tweet in tweets %}
             <h4>This is tweet with ID <a href="https://twitter.com/Interior/status/{{ tweet.tweet_id }}">{{ tweet.tweet_id }}</a></h4>
             <h4>from <a href="https://twitter.com/intent/user/?screen_name={{ tweet.user_name }}">{{ tweet.user_name }}</a></h4>
-
+            <h5>Real Name: {{ tweet.full_name }}</h5>
+            <h5>Gender: {{ tweet.gender }}</h5>
+            <h5>Party: {{ tweet.party_name }}</h5>
+            <h5>Constituency: {{ tweet.constituency }}</h5>
             {% endfor %}
 
             </div>

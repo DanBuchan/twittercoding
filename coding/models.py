@@ -12,6 +12,10 @@ class Tweet(models.Model):
     reply_to = models.CharField(max_length=200, null=True)
 
     # user = link to
+    full_name = models.CharField(max_length=256, null=True)
+    gender = models.CharField(max_length=100, null=True)
+    party_name = models.CharField(max_length=256, null=True)
+    constituency = models.CharField(max_length=256, null=True)
 
     def __str__(self):  # For Python 2, use __str__ on Python 3
         return str(self.tweet_id)

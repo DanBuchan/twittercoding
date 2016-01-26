@@ -52,15 +52,16 @@ def upload(request):
         data = [row for row in csv.reader(f.read().splitlines())]
 
         for row in data:
-            if len(row[0]) < 1:
+            if "name" in row[0]:
                 continue
-            reply_to = [word for word in row[6].split() if word.startswith('@')]
+            reply_to = [word for word in row[9].split() if word.startswith('@')]
             reply_to = [s.rstrip(':') for s in reply_to]
             reply_to = ', '.join(reply_to)
-
-            t = Tweet(tweet_id=int(row[1]), timestamp=int(row[2]),
-                      user_name=row[3], label=row[7], tweet_text=row[6],
-                      reply_to=reply_to)
+            print(row)
+            t = Tweet(tweet_id=int(row[4]), timestamp=int(row[5]),
+                      user_name=row[6], label=row[10], tweet_text=row[9],
+                      reply_to=reply_to, full_name=row[0], gender=row[1],
+                      party_name=row[3], constituency=row[2])
             t.save()
         return HttpResponse("Tweets Uploaded.")
     else:
