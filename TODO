@@ -7,13 +7,18 @@ Full production changes:
 2. logging
 3. testing
 4. Add ability to have simultaneous projects
+5. Ability to have project specific admins who can add project users and
+   add coding schemes
 5. Add ability to have the same coding schemes which can be set for multiple
-   projects
-6. Only admin should register new users
-7. Only admin should upload
-8. re-write form validation in the index view
-9. Mark private functions
-10. Deleting a project should cascade delete the tweets, codes, users and categories
+   projects. Project admins should be able to see (but not edit) other coding
+   schemes and import them in to their own project
+6. Only admins should register new users
+7. Only a project admin should be able to upload a corpus
+8. Coding schemes should have arbitrary dependency complexity, multiple
+   child categories per feature and so forth.
+9. Complex dependencies needs better layout handling on the UI
+9. re-write form validation in the index view
+10. Mark private functions
 11. Better handling for failed file uploads
 12. send static Styling to css file
 13. send static js to js file
