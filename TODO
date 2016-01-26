@@ -1,9 +1,8 @@
-3. Conditional features/categories
+1. Form checking should be smarter if a parent feature is selected then it's
+   child category must have a selection. Hard to implement for arbitrary depths
+   of nesting.
 
-4. browser side form checking
-11. Cascading deletes for codes if you delete a tweet
 12. Summary and tweet pages should show the breakdown of each users coding
-
 
 Full production changes:
 1. Switch to postgres
@@ -12,13 +11,15 @@ Full production changes:
 4. Add ability to have simultaneous projects
 5. Add ability to have the same coding schemes which can be set for multiple
    projects
-5. Only admin should register new users
-6. Only admin should upload
-7. re-write form validation in the index view
-8. Mark private functions
-9. Why does twitter styling take so long to load?
-10. Deleting a project should cascade delete the tweets, codes, users and categories
-11. Better handling for failed file uploads
-12. Styling to CSS
-13. With projects we can set which tweets to be automatically harvested
-14. Switch to twitter API v1.1, oAuth change needed, complicated!
+6. Only admin should register new users
+7. Only admin should upload
+8. re-write form validation in the index view
+9. Mark private functions
+10. Why does twitter styling take so long to load?
+11. Deleting a project should cascade delete the tweets, codes, users and categories
+12. Better handling for failed file uploads
+13. Styling to css file
+14. js to js file
+15. With projects we can set which tweets to be automatically harvested
+16. Switch to twitter API v1.1, oAuth change needed, complicated!
+17. Query twitter api for user bios and format them nicely

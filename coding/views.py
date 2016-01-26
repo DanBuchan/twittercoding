@@ -106,6 +106,7 @@ def get_tweet(tweet):
         twitter_embed_url = "https://api.twitter.com/1/statuses/oembed.json?hide_media=1&id="+str(tweet.tweet_id)
         r = requests.get(twitter_embed_url)
         embed_json = r.json()
+        #print(embed_json)
         embedded_tweet = embed_json['html']
     except:
         # send to log in future
@@ -137,17 +138,25 @@ def get_db_info(current_user, form, error):
     categories = Category.objects.all()
     # here we should get the tweet html as per the twitter API
 
+    child_cats = {}
+    for cat in categories:
+        for feat in cat.features.all():
+            if feat.child_category:
+                child_cats[feat.child_category] = feat
+
+    #revisit this for embedded bios
     embedded_tweet = ''
     replies = None
     for tweet in tweet_list:
         embedded_tweet = get_tweet(tweet)
         #embedded_bio = get_bio(tweet.user_name)
         #embedd_reply = ''
-
         if len(tweet.reply_to) > 0:
             replies = tweet.reply_to.split(", ")
             #embedded_reply = get_bio(replies[0])
             replies = ["https://twitter.com/intent/user/?screen_name="+s for s in replies]
+
+
 
     context_dict = {'tweets': tweet_list,
                     'embedded_tweet': embedded_tweet,
@@ -159,7 +168,8 @@ def get_db_info(current_user, form, error):
                     'categories': categories,
                     'coding_message': coding_message,
                     'progress_message': progress_message,
-                    'replies': replies,}
+                    'replies': replies,
+                    'child_cats': child_cats}
     return(context_dict)
 
 @login_required
@@ -175,6 +185,8 @@ def index(request):
         form = TweetForm(request.POST)
         if form.is_valid():
             tweet = Tweet.objects.get(tweet_id=request.POST['tweet_id'])
+            child_count = int(request.POST['children_count'])
+
             # Save the new category to the database.
 
             # check we have recieved a selection for each radio button
@@ -185,7 +197,7 @@ def index(request):
                     cat_count += 1
 
             # if yes save each one to code
-            if cat_count == total_cats:
+            if cat_count >= (total_cats-child_count):
                 for key in request.POST:
                     if key.startswith("category"):
                         cat_key = key.lstrip("category_")

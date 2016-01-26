@@ -74,5 +74,51 @@
     {% for category in categories %}
     <script> $("[name='category_{{ category.pk }}']").bootstrapSwitch(); </script>
     {% endfor %}
+
+    <script type="text/javascript">
+    {% for category in categories %}
+      {% for feature in category.features.all %}
+        {% if feature.child_category %}
+    $('.toggle-{{ feature.child_category.pk }}-status').bootstrapSwitch('state', false);
+    $('.toggle-{{ feature.child_category.pk }}-status').on('switchChange.bootstrapSwitch', function (event, state) {
+      if (state) {
+      document.getElementById('{{feature.child_category.pk}}_div').style.display = 'block';
+    } else {
+      document.getElementById('{{feature.child_category.pk}}_div').style.display = 'none';
+    }
+    });
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+    </script>
+
+    <script type="text/javascript">
+    function validateForm() {
+      form_valid = true;
+      {% for category in categories %}
+        {% if category not in child_cats %}
+      var chx = document.getElementsByName('category_{{ category.pk }}');
+      found = false;
+      for (var i=0; i<chx.length; i++) {
+        if (chx[i].type == 'radio' && chx[i].checked) {
+          found = true;
+        }
+      }
+      if (found == false) {
+        form_valid = false;
+      }
+        {% endif %}
+      {% endfor %}
+      // End of the loop, return false
+      if (form_valid == true) {
+        return(true);
+      }
+      else {
+        alert("Form Invalid");
+        return(false);
+      }
+    }
+    </script>
+
   </body>
 </html>
