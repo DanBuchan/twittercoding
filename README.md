@@ -15,14 +15,17 @@ To start the system you **MUST** do these steps in this numerical order.
 First of all you **MUST** format your tweet file correctly. For now it is required
 to be in csv format with the following columns
 
-1. Numeric column
-2. Tweet ID
-3. tweet timestamp
-4. twitter username
-5. language
-6. coordinates
-7. text
-8. label
+1. name
+2. gender
+3. constituency
+4. party_name"
+5. Tweet ID
+6. tweet timestamp
+7. twitter username
+8. language
+9. coordinates
+10. text
+11. label
 
 The label is the broad category of the tweet and is used to assign which users
 will code which tweets. For instance if our tweets were for UK politicians we
