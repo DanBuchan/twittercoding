@@ -1,0 +1,34 @@
+1. Buttons: Buttons are a bigger surface to click.
+
+2. Length: Done
+
+3. Could the option boxes display. Maybe this should be do-able with
+the layout engine I'm using but I am using a pretty wide screen and 6 is kind of sane
+
+3. Inter-code testing: Separate projects are never going to happen for this
+iteration of the system. Multiple simultaneous projects requires a fundamental,
+ground-up redesign. One only current solution is to host multiple independant
+instances of the system.
+
+With regards the statistics I strongly doubt slow people are an issue. As long
+as the slow person has coded enough tweets then a statistical comparison
+can be calculated.
+
+4. Export: Labels in the app have no knowledge of any external numeric Coding
+you might have decided. It should be trivial to convert a set of text labels in
+a column to a set of numbers in  SPSS. in R this would be column as.factor()
+
+5 RT info: have Moved this info alongside the tweet instead of over.
+I can't add the other info as it is not in the tweet dataset. Do you want this
+infor loaded from the candidate dataset? If yes then the input file format
+will need to changes
+
+6 Author and mentioned bios: The bios can not be displayed on this page as twitter
+don't provide a method to get just the bio info in a nice format. Note that Those bio
+links take you to twitter it is no handled by app
+
+1. Conditional categories: we have added this and it looks simple from the admin, just not displaying on coding interface. One possible issue might be T6 where 1 should display T7 and 3 should display T8, though 2 should display both T7 and T8. So could we add multiple child categories?
+
+2. Code button check: perfect :)
+
+3. Sweet.
