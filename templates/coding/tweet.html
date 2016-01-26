@@ -7,6 +7,14 @@
 
         {{ embedded_tweet |safe }}
 
+        <h3>Codings</h3>
+        <table>
+          <tr><th>User&nbsp;</th><th>Category&nbsp;</th><th>Selection&nbsp;</th></tr>
+        {% for code in codes %}
+            <tr><td>{{ code.user }}&nbsp;</td><td>{{ code.category }}&nbsp;</td><td>{{ code.feature }}&nbsp;</td></tr>
+        {% endfor %}
+        </table>
+
         {% else %}
           <strong>There are no tweets present.</strong> <br />
         {% endif %}

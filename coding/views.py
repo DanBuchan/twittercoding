@@ -9,6 +9,7 @@ from io import StringIO
 
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -23,20 +24,23 @@ def summary(request):
 
     codings = Code.objects.values_list('tweet', flat=True).distinct()
     coded_tweets = Tweet.objects.filter(id__in=codings)
-    # categories = Category.objects.all()
-    #
-    # coding_counts = {}
-    # for u in users:
-    #     for cat in categories:
-    #         features = cat.features.all()
-    #         for f in features:
-    #             coding_counts.setdefault(str(cat), {})[str(f)] = 0
-    # for element in codings:
-    #     coding_counts[str(coding.category)][str(coding.feature)] += 1
+
+    coding_counts = {}
+    users = User.objects.all()
+    for user in users:
+        codes = Code.objects.filter(user=user).all()
+        user_counts = {}
+        for code in codes:
+            user_counts.setdefault(str(code.category), {})[str(code.feature)] = 0
+        for code in codes:
+            user_counts[str(code.category)][str(code.feature)]+=1
+
+        coding_counts[str(user)]=user_counts
+
 
     context_dict = {'tweet_count': tweet_count,
                     'coded_count': len(coded_tweets),
-#                    'coding_counts': coding_counts,
+                    'coding_counts': coding_counts,
                     }
     return render(request, 'coding/summary.html', context_dict)
 
@@ -117,10 +121,12 @@ def get_tweet(tweet):
 def tweet(request, tweet_id):
     tweet = Tweet.objects.get(tweet_id=tweet_id)
     categories = Category.objects.all()
+    codes = Code.objects.filter(tweet=tweet).all()
 
     context_dict = {'tweet': tweet,
                     'embedded_tweet': get_tweet(tweet),
                     'categories': categories,
+                    'codes': codes,
                     }
     return render(request, 'coding/tweet.html', context_dict)
 
@@ -129,7 +135,7 @@ def get_db_info(current_user, form, error):
 
     codings = Code.objects.filter(user=current_user).values_list('tweet', flat=True).distinct()
     coded_tweets = Tweet.objects.filter(id__in=codings)
-    total =  Tweet.objects.filter(label=current_user.userprofile.tweet_label).count()
+    total = Tweet.objects.filter(label=current_user.userprofile.tweet_label).count()
     coded = Tweet.objects.filter(id__in=codings).count()
     uncoded = total-coded
     tweet_list = Tweet.objects.filter(label=current_user.userprofile.tweet_label).exclude(id__in=codings).order_by('-tweet_id')[:1]

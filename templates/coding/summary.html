@@ -13,10 +13,13 @@
         <h4>Coded : {{ coded_count }} </h4>
 
         <h3>User Summary</h3>
-        {% for category, features in coding_counts.items %}
-        <h4>{{ category }}:</h4>
-          {% for feature, value in features.items %}
-            <h5>{{ feature }} : {{ value }}</h5>
+        {% for user, features in coding_counts.items %}
+        <h4>{{ user }}:</h4>
+          {% for category, counts in features.items %}
+            <h5>{{ category }} :</h5>
+            {% for features, value in counts.items%}
+            <h6>{{ features }} : {{ value }}</h6>
+            {% endfor %}
           {% endfor %}
         {% endfor %}
 

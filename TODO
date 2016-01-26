@@ -2,8 +2,6 @@
    child category must have a selection. Hard to implement for arbitrary depths
    of nesting.
 
-12. Summary and tweet pages should show the breakdown of each users coding
-
 Full production changes:
 1. Switch to postgres
 2. logging
