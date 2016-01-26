@@ -115,7 +115,7 @@ def get_tweet(tweet):
         embedded_tweet = embed_json['html']
     except:
         # send to log in future
-        embedded_tweet = "<div class='col-sm-4 col-md-4' style='background:#d9d9d9;' ><h3>Tweet Could Not Be Retrieved</h3><h3>User: "+tweet.user_name+"</h3><h4>Stored Text: "+tweet.tweet_text+"</h4></div>"
+        embedded_tweet = "<div style='background:#d9d9d9;' ><h3>Tweet Could Not Be Retrieved</h3><h3>User: "+tweet.user_name+"</h3><h4>Stored Text: "+tweet.tweet_text+"</h4></div>"
     return(embedded_tweet)
 
 
