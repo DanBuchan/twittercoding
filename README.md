@@ -35,7 +35,8 @@ If you look in the data dir there is and example correctly formatted input file 
 
 Login as the admin user then visit `http://DOMAIN/coding/upload/`
 
-Here you can upload your file of tweets.
+Here you can upload your file of tweets. It ought to prevent you putting the
+same tweet in twice but I doubt the error message will be nice.
 
 ## 3. Add coding categories
 
@@ -48,8 +49,7 @@ selections may only have 1 child Category.
 **IMPORTANT**
 
 First input all the Categories you wish to display inputing them in the left
-to right order you wish them to appear to the users. Only once this is done can
-you go back and add child_categories.
+to right order you wish them to appear to the users. i.e the first category you put in will be on the left. Only once this is done can you go back and add child_categories.
 
 ## 4. Register users to code tweets
 
@@ -60,14 +60,7 @@ to add users. Note that the Tweet Label field is taken from column 8 in the csv
 in step 1. The selection on user registration assigns which tweets a user will
 be shown.
 
-## 5. Register 0 or more recoder users
-
-If you wish to allow users to re-code previously coded tweets select the
-Recoder option which creating a user. This overrides the Tweet Label setting.
-Recoding users are instead shown random tweets from the complete set of previously
-coded tweets.
-
-## 6. Monitoring progress
+## 5. Monitoring progress
 
 ### Summary stats
 
@@ -81,7 +74,7 @@ Counts of tweets assigned to each category are also listed
 If you have a tweet ID you can check it's coding and recoding at
 `http://DOMAIN/coding/tweet/[TWITTER_ID]`
 
-## 7. Dump all coded tweets
+## 8. Dump all coded tweets
 
 If you wish to download the coding data this can be dumped at `http://DOMAIN/coding/dump/`
 
