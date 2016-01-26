@@ -15,8 +15,7 @@
 
     <link href="{% static 'bootstrap-3.3.6-dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'bootstrap-3.3.6-dist/examples/dashboard/dashboard.css' %}" rel="stylesheet">
-    <link href="{% static 'bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css' %}" rel="stylesheet">
-
+    <link href="{% static 'css/funky_buttons.css' %}" rel="stylesheet">
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -66,27 +65,17 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap-3.3.6-dist/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'bootstrap-switch/js/bootstrap-switch.min.js' %}"></script>
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static 'bootstrap-3.3.6-dist/js/ie10-viewport-bug-workaround.js' %}"></script>
-
-    {% for category in categories %}
-    <script> $("[name='category_{{ category.pk }}']").bootstrapSwitch(); </script>
-    {% endfor %}
 
     <script type="text/javascript">
     {% for category in categories %}
       {% for feature in category.features.all %}
         {% if feature.child_category %}
-    $('.toggle-{{ feature.child_category.pk }}-status').bootstrapSwitch('state', false);
-    $('.toggle-{{ feature.child_category.pk }}-status').on('switchChange.bootstrapSwitch', function (event, state) {
-      if (state) {
-      document.getElementById('{{feature.child_category.pk}}_div').style.display = 'block';
-    } else {
-      document.getElementById('{{feature.child_category.pk}}_div').style.display = 'none';
-    }
-    });
+        $('.toggle-{{ feature.child_category.pk }}-status').change(function (event) {
+             document.getElementById('{{feature.child_category.pk}}_div').style.display = 'block';
+           });
         {% endif %}
       {% endfor %}
     {% endfor %}

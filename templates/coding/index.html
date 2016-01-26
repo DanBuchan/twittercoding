@@ -3,9 +3,9 @@
 
 {% block body_block %}
       {% if user.is_authenticated %}
-        <h1>Hello {{ user.username }}</h1>
-        <h2>{{ coding_message}}</h2>
-        <h2>{{ progress_message}}</h2>
+        <h3>Hello {{ user.username }}</h3>
+        <h4>{{ coding_message}}</h4>
+        <h4>{{ progress_message}}</h4>
         <h3 style="color:red">{{ error }}</h3>
         {% if tweets %}
 
@@ -46,13 +46,11 @@
               <div class="col-sm-12 col-md-12" style="display: flex;">
              {% for category in categories %}
                 <div class="col-sm-2 col-md-2">
-                <div id="{{ category.pk }}_div" style="{% if category in child_cats %}display: none;{% endif %}background:{% cycle '#8dd3c7' '#ffffb3' '#bebada' '#fb8072' '#80b1d3' '#fdb462' '#b3de69' '#fccde5' '#d9d9d9' '#bc80bd' %};border:5px;border-style:solid;border-color: {% cycle '#7cc2b6' '#eeeea2' '#ada9a9' '#ea7061' '#70a0c2' '#eca351' '#a2cd58' '#ebbbcd' '#c8c8c8' '#ab70ac' %};border-radius: 15px;padding: 0px 0px 10px 10px;margin: 5px 5px 5px 5px" >
+                <div class="funkyradio" id="{{ category.pk }}_div" style="{% if category in child_cats %}display: none;{% endif %}background:{% cycle '#8dd3c7' '#ffffb3' '#bebada' '#fb8072' '#80b1d3' '#fdb462' '#b3de69' '#fccde5' '#d9d9d9' '#bc80bd' %};border:5px;border-style:solid;border-color: {% cycle '#7cc2b6' '#eeeea2' '#ada9a9' '#ea7061' '#70a0c2' '#eca351' '#a2cd58' '#ebbbcd' '#c8c8c8' '#ab70ac' %};border-radius: 15px;padding: 0px 10px 10px 10px;margin: 5px 5px 5px 5px" >
                 <h5>{{ category }}</h5>
-                <table>
                 {% for feature in category.features.all %}
-                  <tr><td>{{ feature }}&nbsp;</td><td><input id="{{ feature.pk }}_check" class="selections {% if feature.child_category %}toggle-{{ feature.child_category.pk }}-status{% endif %}" type="radio" name="category_{{ category.pk }}" value="{{ feature.pk }}" data-size="mini" data-off-text="No" data-on-text="Yes"></td></tr>
+                  <div class="funkyradio-success"><input id="{{ feature.pk }}_check" class="selections {% if feature.child_category %}toggle-{{ feature.child_category.pk }}-status{% endif %}" type="radio" name="category_{{ category.pk }}" value="{{ feature.pk }}" /><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i><label for="{{ feature.pk }}_check">{{ feature }}</label></div>
                 {% endfor%}
-                </table>
                 </div>
                 {% if forloop.counter|divisibleby:6 %}
                 </div><div class="col-sm-12 col-md-12" style="display: flex;">
