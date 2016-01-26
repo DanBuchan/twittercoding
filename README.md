@@ -42,17 +42,22 @@ Here you can upload your file of tweets.
 Login in to the admin interface (see below). Select the Categories section. On
 the next page click the "+ Add Category" button to add a coding category and its fields.
 
-Note the interface does **NOT** yet support categories which are contingent on others
-or are subsets of other categories. You may need to add an N/A option to any
-category which can be blank when users code the tweets.
+The interface allows categories to be contingent to on a prior selection. Although
+selections may only have 1 child Category.  
+
+**IMPORTANT**
+
+First input all the Categories you wish to display inputing them in the left
+to right order you wish them to appear to the users. Only once this is done can
+you go back and add child_categories.
 
 ## 4. Register users to code tweets
 
-Once the tweets are in the database with the correct labels now you can 
-create users and assign them a label to encode. **DO NOT** add users 
-until the tweets are successfully loaded. Visit `http://DOMAIN/coding/register/` 
+Once the tweets are in the database with the correct labels now you can
+create users and assign them a label to encode. **DO NOT** add users
+until the tweets are successfully loaded. Visit `http://DOMAIN/coding/register/`
 to add users. Note that the Tweet Label field is taken from column 8 in the csv
-in step 1. The selection on user registration assigns which tweets a user will 
+in step 1. The selection on user registration assigns which tweets a user will
 be shown.
 
 ## 5. Register 0 or more recoder users
