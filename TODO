@@ -1,5 +1,4 @@
-1. Change upload for expanded bio info
-2. Form checking should be smarter if a parent feature is selected then it's
+1. Form checking should be smarter if a parent feature is selected then it's
    child category must have a selection. Hard to implement for arbitrary depths
    of nesting.
 
@@ -23,8 +22,10 @@ Full production changes:
 11. Better handling for failed file uploads
 12. send static Styling to css file
 13. send static js to js file
-14. With projects we can set which tweets to be automatically harvested
+14. With projects we can set which tweets to be automatically harvested (cron/daemon)
 15. Switch to twitter API v1.1, oAuth change needed, complicated!
 16. Query twitter api for user bios and format them nicely
 17. Really there should be a twitter_user_bio table rather than holding that
     in the tweet table.
+18. Make it less twitter centric, have support for other online text sources
+    (social media, news sites etc...) or even just generic text
