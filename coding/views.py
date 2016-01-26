@@ -103,7 +103,7 @@ def get_tweet(tweet):
     embedded_tweet = "<div></div>"
     # print(tweet.tweet_id)
     try:
-        twitter_embed_url = "https://api.twitter.com/1/statuses/oembed.json?hide_thread=1&hide_media=1&id="+str(tweet.tweet_id)
+        twitter_embed_url = "https://api.twitter.com/1/statuses/oembed.json?hide_media=1&id="+str(tweet.tweet_id)
         r = requests.get(twitter_embed_url)
         embed_json = r.json()
         embedded_tweet = embed_json['html']
