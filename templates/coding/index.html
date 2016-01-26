@@ -13,7 +13,7 @@
             {% for tweet in tweets %}
             <h4>This is tweet with ID <a href="https://twitter.com/Interior/status/{{ tweet.tweet_id }}">{{ tweet.tweet_id }}</a></h4>
             <h4>from <a href="https://twitter.com/intent/user/?screen_name={{ tweet.user_name }}">{{ tweet.user_name }}</a></h4>
-            
+
             {% endfor %}
 
             </div>
@@ -64,7 +64,7 @@
 
               <div class="col-sm-12 col-md-12">
                 <br />
-                <button class="btn btn-danger" type="reset">Reset</button>
+                <button class="btn btn-danger" type="reset" onClick="hideThings();" >Reset</button>
                 <input type="submit" name="submit" value="Code" />
               </div>
           </form>

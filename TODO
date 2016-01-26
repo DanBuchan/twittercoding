@@ -13,11 +13,10 @@ Full production changes:
 7. Only admin should upload
 8. re-write form validation in the index view
 9. Mark private functions
-10. Why does twitter styling take so long to load?
-11. Deleting a project should cascade delete the tweets, codes, users and categories
-12. Better handling for failed file uploads
-13. Styling to css file
-14. js to js file
-15. With projects we can set which tweets to be automatically harvested
-16. Switch to twitter API v1.1, oAuth change needed, complicated!
-17. Query twitter api for user bios and format them nicely
+10. Deleting a project should cascade delete the tweets, codes, users and categories
+11. Better handling for failed file uploads
+12. send static Styling to css file
+13. send static js to js file
+14. With projects we can set which tweets to be automatically harvested
+15. Switch to twitter API v1.1, oAuth change needed, complicated!
+16. Query twitter api for user bios and format them nicely

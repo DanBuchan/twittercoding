@@ -109,5 +109,17 @@
     }
     </script>
 
+    <script type="text/javascript">
+    function hideThings() {
+      {% for category in categories %}
+        {% for feature in category.features.all %}
+          {% if feature.child_category %}
+           document.getElementById('{{feature.child_category.pk}}_div').style.display = 'None';
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    }
+    </script>
+
   </body>
 </html>
