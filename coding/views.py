@@ -108,7 +108,7 @@ def get_tweet(tweet):
     embedded_tweet = "<div></div>"
     # print(tweet.tweet_id)
     try:
-        twitter_embed_url = "https://api.twitter.com/1/statuses/oembed.json?hide_media=1&id="+str(tweet.tweet_id)
+        twitter_embed_url = "https://api.twitter.com/1/statuses/oembed.json?id="+str(tweet.tweet_id)
         r = requests.get(twitter_embed_url)
         embed_json = r.json()
         #print(embed_json)
@@ -139,7 +139,7 @@ def get_db_info(current_user, form, error):
     total = Tweet.objects.filter(label=current_user.userprofile.tweet_label).count()
     coded = Tweet.objects.filter(id__in=codings).count()
     uncoded = total-coded
-    tweet_list = Tweet.objects.filter(label=current_user.userprofile.tweet_label).exclude(id__in=codings).order_by('-tweet_id')[:1]
+    tweet_list = Tweet.objects.filter(label=current_user.userprofile.tweet_label).exclude(id__in=codings).order_by('pk')[:1]
     coding_message = "You are currently coding for tweets marked "+current_user.userprofile.tweet_label
     progress_message = "You have coded "+str(coded)+" "+current_user.userprofile.tweet_label+" tweets. There are "+str(uncoded)+" to do."
     categories = Category.objects.all()
