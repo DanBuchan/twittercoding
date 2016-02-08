@@ -24,6 +24,7 @@ SECRET_KEY = '!)!rh#!!iv_9xw_g0p*^=3)_1(j^t8u$m^@5v8!2!e_w+$@a-l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 

@@ -121,5 +121,12 @@
     }
     </script>
 
+    <script type="text/javascript">
+      function clearChild(category, hide_div) {
+        $('input[name='+category+']').prop('checked',false);
+        document.getElementById(hide_div).style.display = 'None';
+      }
+    </script>
+
   </body>
 </html>

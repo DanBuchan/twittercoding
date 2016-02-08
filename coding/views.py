@@ -146,10 +146,13 @@ def get_db_info(current_user, form, error):
     # here we should get the tweet html as per the twitter API
 
     child_cats = {}
+    category_children = {}
     for cat in categories:
         for feat in cat.features.all():
             if feat.child_category:
+                category_children[cat] = feat.child_category
                 child_cats[feat.child_category] = feat
+    print(str(category_children))
 
     #revisit this for embedded bios
     embedded_tweet = ''
@@ -176,7 +179,8 @@ def get_db_info(current_user, form, error):
                     'coding_message': coding_message,
                     'progress_message': progress_message,
                     'replies': replies,
-                    'child_cats': child_cats}
+                    'child_cats': child_cats,
+                    'cat_child': category_children}
     return(context_dict)
 
 @login_required

@@ -54,7 +54,13 @@
                 <div class="funkyradio" id="{{ category.pk }}_div" style="{% if category in child_cats %}display: none;{% endif %}background:{% cycle '#8dd3c7' '#ffffb3' '#bebada' '#fb8072' '#80b1d3' '#fdb462' '#b3de69' '#fccde5' '#d9d9d9' '#bc80bd' %};border:5px;border-style:solid;border-color: {% cycle '#7cc2b6' '#eeeea2' '#ada9a9' '#ea7061' '#70a0c2' '#eca351' '#a2cd58' '#ebbbcd' '#c8c8c8' '#ab70ac' %};border-radius: 15px;padding: 0px 10px 10px 10px;margin: 5px 5px 5px 5px" >
                 <h5>{{ category }}</h5>
                 {% for feature in category.features.all %}
-                  <div class="funkyradio-success"><input id="{{ feature.pk }}_check" class="selections {% if feature.child_category %}toggle-{{ feature.child_category.pk }}-status{% endif %}" type="radio" name="category_{{ category.pk }}" value="{{ feature.pk }}" /><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i><label for="{{ feature.pk }}_check"><p>{{ feature }}</p></label></div>
+                  <div class="funkyradio-success"><input
+                    {% for cat2, f2 in cat_child.items %}
+                      {% if category == cat2 %}
+                        onChange="clearChild('category_{{ f2.pk }}', '{{ f2.pk}}_div')"
+                      {% endif %}
+                    {% endfor %}
+                    id="{{ feature.pk }}_check" class="selections {% if feature.child_category %}toggle-{{ feature.child_category.pk }}-status{% endif %}" type="radio" name="category_{{ category.pk }}" value="{{ feature.pk }}" /><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i><label for="{{ feature.pk }}_check" >{{ feature }}</label></div>
                 {% endfor%}
                 </div>
                 {% if forloop.counter|divisibleby:6 %}
