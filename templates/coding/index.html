@@ -55,20 +55,40 @@
                 <h5>{{ category }}</h5>
                 {% for feature in category.features.all %}
                   <div class="funkyradio-success"><input
-                    {% for cat2, f2 in cat_child.items %}
+                    {% for cat2 in cat_child %}
                       {% if category == cat2 %}
-                        onChange="clearChild('category_{{ f2.pk }}', '{{ f2.pk}}_div')"
+                        onChange="clearChild([{{ cat2.pk }} ])"
                       {% endif %}
                     {% endfor %}
                     id="{{ feature.pk }}_check" class="selections {% if feature.child_category %}toggle-{{ feature.child_category.pk }}-status{% endif %}" type="radio" name="category_{{ category.pk }}" value="{{ feature.pk }}" /><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i><label for="{{ feature.pk }}_check" >{{ feature }}</label></div>
-                {% endfor%}
+                {% endfor %}
                 </div>
-                {% if forloop.counter|divisibleby:6 %}
+                {% if forloop.counter|divisibleby:3 %}
                 </div><div class="col-sm-2 col-md-2" style="display: flex;">
                 {% endif %}
               </div>
               {% endfor %}
               </div>
+
+
+              <script type="text/javascript">
+                function clearChild(clear_cat) {
+                    {% for cat2, f2 in cat_child.items %}
+                      var cleararray_{{ cat2.pk }}= [ {{ f2 }} ]
+                    {% endfor %}
+                    {% for cat2 in cat_child %}
+                      if(clear_cat == {{ cat2.pk }})
+                      {
+                        for( var i in cleararray_{{ cat2.pk }} )
+                        {
+                          $('input[name=category_'+cleararray_{{ cat2.pk }}[i]+']').prop('checked',false);
+                          document.getElementById(cleararray_{{ cat2.pk }}[i]+'_div').style.display = 'None';
+                        }
+                      }
+                    {% endfor %}
+                  }
+
+              </script>
 
 
               <div class="col-sm-12 col-md-12">

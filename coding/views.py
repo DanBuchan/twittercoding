@@ -148,10 +148,14 @@ def get_db_info(current_user, form, error):
     child_cats = {}
     category_children = {}
     for cat in categories:
+        category_children[cat] = ""
+
+    for cat in categories:
         for feat in cat.features.all():
             if feat.child_category:
-                category_children[cat] = feat.child_category
+                category_children[cat] += str(feat.child_category.pk)+","
                 child_cats[feat.child_category] = feat
+    category_children = {i:j for i,j in category_children.items() if len(j) != 0}
     print(str(category_children))
 
     #revisit this for embedded bios

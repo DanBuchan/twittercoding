@@ -50,6 +50,6 @@ cp db.sqlite3 ../db_backup/db.sqlite3.empty
 # rm -rf twittercoding
 # git clone https://github.com/DanBuchan/twittercoding.git
 # cp db.sqlite3 twittercoding
-# cp db_backup/settings twittercoding/twittercoding/
+# cp db_backup/settings.py twittercoding/twittercoding/
 # cd twittercoding
 # python manage.py collectstatic
