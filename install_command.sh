@@ -14,7 +14,7 @@ python manage.py
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
-
+python manage.py collectstatic
 #find wsgi.py in /home/einarthorsen/twittercoding/twittercoding
 #virtualenv at /home/einarthorsen/.virtualenvs/twittercoding/
 
@@ -42,4 +42,14 @@ cp db.sqlite3 ../db_backup/db.sqlite3.empty
 # return to web tab
 # Add static files URL /static/
 # Add static files path /home/einarthorsen/twittercoding/static
-# Clikc Restart app button
+# Click Restart app button
+
+#Pushing a new release
+# cd ~
+# cp twittercoding/db.sqlite3 ./
+# rm -rf twittercoding
+# git clone https://github.com/DanBuchan/twittercoding.git
+# cp db.sqlite3 twittercoding
+# cp db_backup/settings twittercoding/twittercoding/
+# cd twittercoding
+# python manage.py collectstatic
