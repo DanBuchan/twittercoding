@@ -1,6 +1,7 @@
 1. Form checking should be smarter if a parent feature is selected then it's
    child category must have a selection. Hard to implement for arbitrary depths
    of nesting.
+2. Handle files of tweets larger than 1,500
 
 Full production changes:
 1. Switch to postgres
