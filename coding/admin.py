@@ -25,7 +25,11 @@ class FeatureInline(admin.TabularInline):
 class CategoryAdmin(admin.ModelAdmin):
     inlines = [FeatureInline]
 
-admin.site.register(Tweet)
+
+class TweetAdmin(admin.ModelAdmin):
+    list_per_page = 800
+
+admin.site.register(Tweet, TweetAdmin)
 admin.site.register(Code)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(User, UserProfileAdmin)

@@ -46,24 +46,31 @@ def summary(request):
 
 @login_required
 def upload(request):
+    output_string = ""
+    errors = 0
     if request.method == 'POST':
         file = request.FILES['csv_file']
         f = StringIO(file.read().decode())
         data = [row for row in csv.reader(f.read().splitlines())]
 
         for row in data:
-            if "name" in row[0]:
-                continue
-            reply_to = [word for word in row[9].split() if word.startswith('@')]
-            reply_to = [s.rstrip(':') for s in reply_to]
-            reply_to = ', '.join(reply_to)
-            print(row)
-            t = Tweet(tweet_id=int(row[4]), timestamp=int(row[5]),
-                      user_name=row[6], label=row[10], tweet_text=row[9],
-                      reply_to=reply_to, full_name=row[0], gender=row[1],
-                      party_name=row[3], constituency=row[2])
-            t.save()
-        return HttpResponse("Tweets Uploaded.")
+            try:
+                if "name" in row[0]:
+                    continue
+                reply_to = [word for word in row[9].split() if word.startswith('@')]
+                reply_to = [s.rstrip(':') for s in reply_to]
+                reply_to = ', '.join(reply_to)
+                #print(row)
+                t = Tweet(tweet_id=int(row[4]), timestamp=int(row[5]),
+                    user_name=row[6], label=row[10], tweet_text=row[9],
+                    reply_to=reply_to, full_name=row[0], gender=row[1],
+                    party_name=row[3], constituency=row[2])
+
+                t.save()
+            except:
+                errors+=1
+                output_string= output_string+"<br/><br/>Could not upload tweet ID:"+str(row)
+        return HttpResponse("Tweets Uploaded<br/><br/>"+str(errors)+" Erroneous tweets<br/><br/>"+output_string)
     else:
         return render(request, 'coding/upload.html', {})
 
