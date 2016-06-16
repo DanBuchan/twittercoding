@@ -88,6 +88,8 @@ def dump(request):
     contents += "\n"
 
     annotations = {}
+    # This is dumb, the Code.objects.filter call takes FOREVER when
+    # you dump too many tweets
     for tweet in coded_tweets:
 
         print(tweet)
