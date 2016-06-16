@@ -28,7 +28,8 @@ with open('/Users/dbuchan/Code/twittercoding/code_dump.csv', newline='') as csvf
 # pp.pprint(tweets)
 print("tweet_id,username,label,user,T1: Multimedia,T2: Type of tweet,"
       "T3: Interaction with,T4: Is there an @mention?,T5: Source of @mention,"
-      "T6a: Personal?,T6b: Political?,T7: Personal topic,T8: Political Topic,")
+      "T6a: Personal?,T6b: Political?,T7: Personal topic,T8: Political Topic,"
+      "T9: Tweet function,T10: Reference to news coverage")
 
 for tweet_id in tweets:
     codes = tweets[tweet_id]
