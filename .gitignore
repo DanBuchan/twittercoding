@@ -9,3 +9,4 @@ __pycache__/
 logs/*
 db.sqlite3
 code_dump.csv
+coding_final.csv
